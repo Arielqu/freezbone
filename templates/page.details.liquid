@@ -1,0 +1,35 @@
+{% comment %}
+  The contents of the page.details.liquid template can be found in /sections/page-details-template.liquid
+{% endcomment %}
+{% section 'featured-products-sale' %}
+<!-- - -->
+{% section 'page-details-template' %}
+<!-- <div class="colms_sale_bg">
+{% section 'text-columns-with-images' %}
+</div> -->
+{% section 'featured-products-sale' %}
+
+<div class="faq_sale_bg ">
+   <div class="container">
+    <div class="one-whole column video_w_sale">
+    {% section 'page-faq-template' %}
+    </div>
+   </div>
+</div>
+
+{% section 'review_sale' %}
+
+<style>
+#shopify-section-footer{display:none !important;}
+/*   .menu li{display:none !important;} */
+  .promo_banner{display:none !important;}
+  .hide_sale{display:none !important;}
+  ul.header-cart-ul { width: auto !important;}
+.menu-*+position--inline.logo-position--left div.logo { text-align: center !important;}
+  .mobile_nav {display:none !important;}
+@media only screen and (max-width: 798px){
+#header .top_bar a.mobile_logo {margin: 0; position: relative; width: auto;}
+  #header .top_bar a.mobile_logo {}
+  }
+</style>
+

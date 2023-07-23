@@ -1,0 +1,57 @@
+{% assign collection_handles = product.collections | map: 'handle' %}
+{% if settings.thumbnail_hover_enabled or settings.quick_shop_enabled and settings.quick_shop_style == 'popup' %}
+  <div class="thumbnail-overlay">
+    <a href="{{ product.url | within: collection }}" itemprop="url" class="hidden-product-link">{{ product.title }}</a>
+    <div class="info">
+      {% if settings.thumbnail_hover_enabled %}
+        {% include "product-info" %}
+      {% endif %}
+      {% if settings.quick_shop_enabled and settings.quick_shop_style == 'popup' %}
+        {% include 'quick-shop-button' %}
+      {% endif %}
+    </div>
+  </div>
+{% endif %}
+<div class="banner_holder">
+  {% if product.available %}
+    {% if settings.sale_banner_enabled and product.compare_at_price_max > product.price %}
+      <div class="sale_banner thumbnail_banner">{{ 'collections.general.sale' | t }}</div>
+    {% endif %}
+  {% endif %}
+  {% if collection_handles contains 'new' %}
+    <div class="new_banner thumbnail_banner">{{ 'collections.general.new' | t }}</div>
+  {% endif %}
+  {% if collection_handles contains 'pre-order' %}
+    <div class="preorder_banner thumbnail_banner">{{ 'collections.general.pre_order' | t }}</div>
+  {% endif %}
+</div>
+
+<script type="text/javascript"> 
+   window.onload = onWindowLoad;
+  
+  function onWindowLoad(){  
+    const btns = document.querySelectorAll('.add_to_cart');
+    [...btns].forEach(btn=>btn.addEventListener('click',()=>{
+      console.log('click!');
+      add_to_cart_gtag.value = $('.current_price .money').html().trim().replace('$','');
+      add_to_cart_gtag.items[0].price = $('.current_price .money').html().trim().replace('$','');
+      add_to_cart_gtag.items[0].variation_id = getVariationID();
+      console.log('add_to_cart_gtag',add_to_cart_gtag);
+      gtag("event", "add_to_cart", add_to_cart_gtag);
+    }));
+    // $('.add_to_cart').on('click',  function(){
+    //   //alert('add_to_cart_gtag');
+    //   add_to_cart_gtag.value = $('.current_price .money').html().trim().replace('$','');
+    //   add_to_cart_gtag.items[0].price = $('.current_price .money').html().trim().replace('$','');
+    //   add_to_cart_gtag.items[0].variation_id = getVariationID();
+    //   console.log('add_to_cart_gtag',add_to_cart_gtag);
+    //   gtag("event", "add_to_cart", add_to_cart_gtag);
+    // }); 
+  };
+
+  function getVariationID(){
+    const urlParams = new URLSearchParams(window.location.search);
+    const myParam = urlParams.get('variant');
+    return myParam;
+  }
+</script>

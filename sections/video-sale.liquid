@@ -1,0 +1,71 @@
+
+
+<section
+  class="section">
+  {% if section.settings.heading_sale != blank %}
+                  <h1 class="headline" style="text-align: center;">
+                    {{ section.settings.heading_sale | escape }}
+                  </h1>
+                {% endif %}
+                
+  {% if section.settings.html5_video != blank %}
+  <div class="container">
+    <div class="one-whole column video_w_sale">
+      
+                
+<video class="video_"autobuffer autoplay loop muted controls>
+  <source src="{{ section.settings.html5_video }}">
+  <source src="movie.ogg" type="video/ogg">
+</video>
+
+
+
+    
+    </div>
+  </div>
+  {% endif %}
+</section>
+
+{% schema %}
+{
+  "name": "Video-sale",
+  "class": "shopify-section--video under-menu",
+  "settings": [
+
+
+{
+      "type": "text",
+      "id": "heading_sale",
+      "label": "Heading"
+    },
+
+
+    {
+      "type": "text",
+      "id": "html5_video",
+      "label": "HTML5 MP4/OGV File URL"
+    }
+
+  ],
+  "presets": [{
+    "name": "Video-sale",
+    "category": "Video",
+    "settings": {
+     
+    }
+  }],
+  "templates": [
+    "index",
+    "product",
+    "collection",
+    "page"
+  ]
+}
+
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

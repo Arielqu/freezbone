@@ -1,0 +1,95 @@
+
+{% for tag in product.tags %} 
+    {% assign related_collection_handle = tag | remove: 'meta-related-collection-' %}
+ 
+{% endfor %} 
+{% assign current_product = product %} 
+{%- capture related_items -%}
+  {%- for product in collections.all.products -%} 
+    {%- unless product.handle == current_product.handle -%} 
+      {%- if product.tags contains related_collection_handle -%}  
+        {% assign feature_image = product.featured_image %}
+      <div class="gallery-cell
+                  thumbnail
+                  {% if settings.collection_secondary_image != blank and product.media[1] != blank %}
+                    has-secondary-media-swap
+                  {% endif %}
+                  visible-{{ visible_products }}
+                  quick-shop-style--{{ settings.quick_shop_style }}
+                  product-{{ product.id }}">
+        <div class="product-wrap">
+          <div class="relative product_image">
+            <a href="{{ product.url | within: collection }}">
+              <div class="image__container">
+                {% include 'image-element', image: product.featured_media.preview_image, alt: alt_text, object_fit: settings.align_height, max_height: section.settings.collection_height %}
+                {% if settings.collection_secondary_image != blank and product.media[1] != blank %}
+                  {% assign youtube_video = product.media | where: "media_type", "external_video" %}
+                  {% assign html5_video = product.media | where: "media_type", "video" %}
+
+                  {% if youtube_video.first %}
+                    <div class="external-video__container lazyload lazypreload secondary-media-hidden video-on-hover">
+                      <div class="youtube-wrapper" data-youtube-video>
+                        {{ youtube_video.first | external_video_tag }}
+                      </div>
+                    </div>
+                  {% elsif html5_video.first %}
+                    <div class="video__container lazyload lazypreload secondary-media-hidden video-on-hover" data-html5-video>
+                      {{ html5_video.first | video_tag: controls: false }}
+                    </div>
+                  {% else %}
+                    {% include 'image-element', image: product.media[1].preview_image, alt: alt_text, additional_classes: 'secondary lazypreload secondary-media-hidden' %}
+                  {% endif %}
+                {% endif %}
+              </div>
+            </a>
+            {% include "product-details" %}
+            {% if settings.quick_shop_style == 'inline' %}
+              {% include 'collection-swatch' %}
+            {% endif %}
+          </div>
+          <a class="product-info__caption {% if settings.thumbnail_hover_enabled %}hidden{% endif %}" href="{{ product.url | within: collection }}">
+            {% include "product-info" %}
+          </a>
+        </div>
+        {% if settings.quick_shop_style == 'popup' and settings.quick_shop_enabled %}
+          {% include 'collection-swatch' %}
+        {% endif %}
+
+
+      </div>
+      {%- endif -%} 
+    {%- endunless -%}
+  {%- endfor -%} 
+  {% endcapture %}
+ 
+ <div class="product-recommendations-container">
+  
+    {% capture product_collections_markup %}
+      <div class="recommended-products__title {% unless section.settings.product_recommendations_style == 'slider' %}sixteen columns{% endunless %}" data-recommended-product-count="{% if show_dynamic_collection == true %}{{ recommendations.products_count }}{% else %}{{ collection_size }}{% endif %}">
+        <h4 class="title center">You May Also Like</h4>
+        <div class="feature_divider"></div>
+      </div>
+      <div class="clear"></div>
+ 
+        <div class="recommended-products--slider js-recommended-products-slider"> 
+<div class="slider-gallery products-slider products-length-4 transparentBackground--{{settings.slideshow_button_style}}"
+      data-products-per-slide="{{ visible_products }}"
+      data-products-limit="4"
+  style="
+    display: block;
+  text-align: center;
+"
+      data-products-available="4">
+           {{ related_items }}
+</div> 
+        </div>
+      
+    {% endcapture %}
+ 
+      <div class="meta-related-recommended-collection" data-enabled="{{ section.settings.show_product_recommendations }}">
+        {{ product_collections_markup }}
+      </div>
+ 
+
+  </div>
+ 

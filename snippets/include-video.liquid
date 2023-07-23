@@ -1,0 +1,245 @@
+{% comment %}
+  Snippet can be used in section or block
+  eg. {% include 'include-video' %}
+{% endcomment %}
+
+{% comment %}Assign object as block or section{% endcomment %}
+
+{% if type == 'block' %}
+  {% assign object = block %}
+{% else %}
+  {% assign object = section %}
+{% endif %}
+
+{% assign id = object.id %}
+
+{% assign wide_display = object.settings.wide_display %}
+{% assign heading_sale = object.settings.heading_sale %}
+
+
+{% assign aspect_ratio = object.settings.aspect_ratio %}
+{% assign autoplay = object.settings.autoplay %}
+{% assign autoloop = object.settings.autoloop %}
+{% assign video_dark_overlay = object.settings.video_dark_overlay %}
+{% assign mute_video = object.settings.mute_video %}
+{% assign show_controls = object.settings.show_controls %}
+{% assign image = object.settings.image %}
+{% assign display_text_over_video = object.settings.display_text_over_video %}
+{% assign pretext = object.settings.pretext %}
+{% assign title = object.settings.title %}
+{% assign subtitle = object.settings.subtitle %}
+{% assign text_position = object.settings.text_position %}
+{% assign text_align = object.settings.text_align %}
+{% assign mobile_text_below_image = object.settings.mobile_text_below_image %}
+{% assign caption_background = object.settings.caption_background %}
+{% assign caption_background_transparency = object.settings.caption_background_transparency %}
+{% assign button1_label = object.settings.button1_label %}
+{% assign button1_link = object.settings.button1_link %}
+{% assign button1_highlight = object.settings.button1_highlight %}
+{% assign button2_label = object.settings.button2_label %}
+{% assign button2_link = object.settings.button2_link %}
+{% assign button2_highlight = object.settings.button2_highlight %}
+{% assign mobile_text_color = object.settings.mobile_text_color %}
+
+{% assign iframe_video = object.settings.iframe_video %}
+{% assign html5_video = object.settings.html5_video %}
+{% if iframe_video != blank or html5_video != blank %}
+  {% if autoplay == true %}
+    {% assign video_exists = true %}
+  {% else %}
+    {% assign video_exists = false %}
+  {% endif %}
+{% else %}
+  {% assign video_exists = false %}
+{% endif %}
+
+{% comment %}Is the color set to transparent?{% endcomment %}
+{% assign mobile_text_alpha = mobile_text_color | color_extract: 'alpha' %}
+
+{% comment %}Section specific CSS{% endcomment %}
+{% style %}
+  @media only screen and (max-width: 480px) {
+    #shopify-section-{{ id }} .pretext,
+    #shopify-section-{{ id }} .headline,
+    #shopify-section-{{ id }} .subtitle,
+    .block__{{ id }} .pretext,
+    .block__{{ id }} .headline,
+    .block__{{ id }} .subtitle {
+      color: {% if mobile_text_alpha != 0 %}{{ mobile_text_color}}{% endif %};
+    }
+  }
+{% endstyle %}
+
+{% comment %}Turn autoplay true/false into 1/0{% endcomment %}
+{% if autoplay == true %}
+  {% assign numberAutoplay = 1 %}
+  {% assign html5Autoplay = 'autoplay' %}
+{% else %}
+  {% assign numberAutoplay = 0 %}
+  {% assign html5Autoplay = '' %}
+{% endif %}
+
+{% comment %}Turn autoloop true/false into 1/0{% endcomment %}
+{% if autoloop == true %}
+  {% assign numberAutoloop = 1 %}
+  {% assign playlistLoop = video.id %}
+  {% assign html5Autoloop = 'loop="loop"' %}
+{% else %}
+  {% assign numberAutoloop = 0 %}
+  {% assign playlistLoop = '' %}
+  {% assign html5Autoloop = '' %}
+{% endif %}
+
+{% comment %}If a poster image is present and autoplay is false do not play video{% endcomment %}
+{% if autoplay == false %}
+  {% assign showPosterImage = true  %}
+  {% assign autoplayVideo = true  %}
+{% else %}
+  {% assign showPosterImage = false  %}
+  {% assign autoplayVideo = false  %}
+{% endif %}
+
+<div class="specific-contain js-video-section full-width--{{ wide_display }} video-m-div">
+
+
+  
+{% if wide_display == false %}
+<div class="container">
+  <div class="sixteen columns">
+{% endif %}
+
+  {% if heading_sale != blank %}
+                  <h1 class="headline" style="text-align: center;">
+                    {{ heading_sale }}
+                  </h1>
+                {% endif %}
+                
+{% if type == 'block' %}
+  <div class="video-section" data-id="{{ id }}" id="block-{{ block.id }}">
+{% endif %}
+{% if section.settings.main_heading != blank %}
+   <h1 class="main-title">{{ section.settings.main_heading }}</h1>
+{% endif %}  
+<section class="home-vid-sect js-video homepage-video showPosterImage--{{ showPosterImage }}
+                {% if display_text_over_video == false %}hide-text-on-video{% endif %}
+                video-autoplay--{{ autoplay }} video-autoloop--{{ autoloop }} video-controls-enabled--{{ show_controls }}"
+              data-thumbnail="{% if image %}{{ image | img_url: '1500x' }}{% else %}https:{{ 'placeholder.svg' | asset_url }}{% endif %}"
+              data-ratio="{{ aspect_ratio }}"
+              data-muted="{{ mute_video }}"
+              data-text-on-video="{{ display_text_over_video }}">
+
+  {% if video_dark_overlay %}
+    <div class="darken-video"></div>
+  {% endif %}
+
+  <div class="{% if display_text_over_video == true %}display-mobile-text{% endif %}
+              mobile-video__buttons caption {% if mobile_text_below_image == false %}text-on-video{% endif %} hidden--mobile">
+    {% if mobile_text_below_image == false %}
+      {% if pretext != blank %}
+        <div class="pretext">
+          {{ pretext }}
+        </div>
+      {% endif %}
+      {% if title != blank %}
+        <h1 class="headline">
+          {{ title }}
+        </h1>
+      {% endif %}
+      {% if subtitle != blank %}
+        <div class="subtitle">
+          {{ subtitle }}
+        </div>
+      {% endif %}
+      {% if button1_label != blank %}
+        <a {% if button1_link != blank %}href="{{ button1_link }}"{% else %}data-play-video-button{% endif %} class="action_button first_button highlight-{{ button1_highlight }}">
+          {{ button1_label }}
+        </a>
+      {% endif %}
+      {% if button2_label != blank and button2_link != blank %}
+        <a href="{{ button2_link }}" class="action_button highlight-{{ button2_highlight }}">
+          {{ button2_label }}
+        </a>
+      {% endif %}
+  {% endif %}
+  </div>
+
+  {% comment %} Checks there is an iframe video (YouTube or Vimeo) {% endcomment %}
+  <div class="{% if video_exists %}plyr__video-embed{% endif %} {% if iframe_video != blank %}video-{{ id }}{% endif %}" data-video-element>
+    {% if iframe_video != blank %}
+      {% if iframe_video.type == 'youtube' %}
+        <iframe src="https://www.youtube.com/embed/{{ iframe_video.id }}?origin=https://plyr.io&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1" allowfullscreen allowtransparency allow="autoplay"></iframe>
+      {% elsif iframe_video.type == 'vimeo' %}
+        <iframe src="https://player.vimeo.com/video/{{ iframe_video.id }}?loop=false&amp;byline=false&amp;portrait=false&amp;title=false&amp;speed=true&amp;transparent=0&amp;gesture=media" allowfullscreen allowtransparency allow="autoplay"></iframe>
+      {% endif %}
+    {% elsif html5_video != blank %}
+      <video class="video-{{ id }}" data-video-element >
+        <source src="{{ html5_video }}">
+      </video>
+    {% endif %}
+  </div>
+</section>
+
+{% if type == 'block' %}
+  </div>
+{% endif %}
+
+{% unless pretext == blank and title == blank and subtitle == blank and button1_label == blank and button2_label == blank %}
+  <section class="
+    caption js-caption
+    video-autoplay--{{autoplay}}
+    position-{{ text_position }}
+    {% if useLazyframe != true %}html-video{% endif %}
+    {% if display_text_over_video %}text-on-video{% endif %}
+    caption--below-{{ mobile_text_below_image }}
+  ">
+    <div class="caption-content align-{{ text_align }} caption-background-{{caption_background}} caption-transparency-{{ caption_background_transparency }}">
+      {% if pretext != blank %}
+        <div class="pretext">
+          {{ pretext }}
+        </div>
+      {% endif %}
+      {% if title != blank %}
+        <h1 class="headline">
+          {{ title }}
+        </h1>
+      {% endif %}
+      {% if subtitle != blank %}
+        <div class="subtitle">
+          {{ subtitle }}
+        </div>
+      {% endif %}
+      {% if button1_label != blank %}
+        <a {% if button1_link != blank %}href="{{ button1_link }}"{% else %}data-play-video-button{% endif %} class="play-btn-icon action_button first_button highlight-{{ button1_highlight }}">
+          {{ button1_label }}
+        </a>
+      {% endif %}
+      {% if button2_label != blank and button2_link != blank %}
+        <a href="{{ button2_link }}" class="action_button highlight-{{ button2_highlight }}">
+          {{ button2_label }}
+        </a>
+      {% endif %}
+    </div>
+  </section>
+{% endunless %}
+<div class="vid-bottom-content">
+  {% if section.settings.bottom_heading != blank %}
+    <h2>{{ section.settings.bottom_heading }}</h2>
+  {% endif %}
+  {% if section.settings.bottom_discription != blank %}
+    {{ section.settings.bottom_discription }}
+  {% endif %}
+</div>
+<style>
+  {% if autoplay %}
+    .homepage-video__placeholder {
+      visibility: hidden;
+    }
+  {% endif %}
+</style>
+
+{% if wide_display == false %}
+  </div>
+</div>
+{% endif %}
+
+</div>

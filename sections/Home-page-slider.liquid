@@ -1,0 +1,644 @@
+<script
+  type="application/json"
+  data-section-type="text-columns-with-images"
+  data-section-id="{{ section.id }}"
+>
+</script>
+
+{%- assign id = section.id -%}
+
+{% comment %} Content settings {% endcomment %}
+{%- assign blocks = section.blocks -%}
+{%- assign title = section.settings.title | escape -%}
+{%- assign sub_title = section.settings.sub_title | escape -%}
+{%- assign html5_video1 = block.settings.html5_video1 | escape -%}
+{%- assign html5_video2 = block.settings.html5_video2 | escape -%}
+{% comment %} End content settings {% endcomment %}
+
+{% comment %} Advanced {% endcomment %}
+{%- assign css_class = section.settings.css_class -%}
+{%- assign custom_css = section.settings.custom_css -%}
+
+{% comment %} Section specific CSS {% endcomment %}
+{% style %}
+  {%
+    render 'css-loop',
+    css: custom_css,
+    id: id
+  %}
+{% endstyle %}
+
+
+
+
+ 
+<section class="section {{ css_class }} desktop-test-sect">
+  <div class="container">
+  	{% if title != blank %}
+	  	<div class="top-heading-content">
+	  		<h2>{{ title }}</h2>
+	  		<p>{{ sub_title }}</p>
+	  	</div>
+  	{% endif %}
+	<div class="">
+		<div id="home-rev-carousel" class="owl-carousel  review-slider">
+			{% for block in blocks %}
+	      	{% comment %} Content settings {% endcomment %}
+	      	{%- assign title1 = block.settings.Testimonial-title-1 -%}
+	      	{%- assign title2 = block.settings.Testimonial-title-2 -%}
+	      	{%- assign title3 = block.settings.Testimonial-title-3 -%}
+	      	{%- assign title4 = block.settings.Testimonial-title-4 -%}
+	      	{%- assign title5 = block.settings.Testimonial-title-5 -%}
+	      	{%- assign disc1 = block.settings.test-discription1 -%}
+	      	{%- assign disc2 = block.settings.test-discription2 -%}
+	      	{%- assign disc3 = block.settings.test-discription3 -%}
+	      	{%- assign disc4 = block.settings.test-discription4 -%}
+	      	{%- assign disc5 = block.settings.test-discription5 -%}
+	      	{%- assign html5_video1 = block.settings.html5_video1 | escape -%}
+			{%- assign html5_video2 = block.settings.html5_video2 | escape -%}
+			{%- assign html5_video3 = block.settings.html5_video3 | escape -%}
+			{%- assign html5_video4 = block.settings.html5_video4 | escape -%}
+			{%- assign html5_video5 = block.settings.html5_video5 | escape -%}
+	      	{% comment %} End content settings {% endcomment %}
+			    <div class="item review-item-div">
+			    	<div class="border-style--{{ block.settings.border_style }} text-align--{{ block.settings.align_text }}">
+			         	<div class="slider-hom-m-row">
+			         		<div class="f-col">
+			         			{% if block.settings.first-col-image != blank %}
+				         			<div class="rew-cont">
+				         				<div class="pt-img">
+
+                                   {% if html5_video1 != blank %}
+											<a class="size_chart img_w_review img_w_review-icon" href="javascript:;" data-fancybox="" data-src="#size-chart-{{ block.id }}" data-type="inline" data-no-instant="">
+	            					{% endif %}			
+                                     <img src="{{ block.settings.first-col-image | img_url: 'master'  }}">
+								         	
+                                     {% if html5_video1 != blank %}
+                                     <svg class="play-icon-button-control" width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="60" fill="white"></rect><path fill-rule="evenodd" clip-rule="evenodd" d="M23 20V40L39 29.4248L23 20Z" fill="#323232"></path></svg>
+
+                                  
+                                  </a>
+                                       {% endif %}
+				         				</div>
+				         				<div class="js-sizechart-lightbox video_review" id="size-chart-{{ block.id }}" style="display: none;">
+											<span class="">
+										        <video width="100%" height="100%" controls>
+										        <source src="{{ html5_video1 }}" type="video/mp4">
+										        <source src="{{ html5_video1 }}" type="video/ogg">
+										        </video>
+										    </span>
+										</div>
+				         				<div class="content-rev">
+				         					<div class="title-star">
+				         						<h2>{{ title1 }}</h2>
+				         						{% if block.settings.star_img1 != blank %}
+								                	<img alt="{{ block.settings.star_img1.alt | escape }}"
+								                     class="star_img lazyload {{ settings.image_loading_style }}"
+								                     data-sizes="25vw"
+								                     style="max-width: 100px; margin:auto;"
+								                     data-src="{{ block.settings.star_img1 | img_url: '2048x' }}"
+								                     data-srcset="{{ block.settings.star_img1 | img_url: '200x' }} 200w,
+								                                  {{ block.settings.star_img1 | img_url: '300x' }} 300w,
+								                                  {{ block.settings.star_img1 | img_url: '400x' }} 400w,
+								                                  {{ block.settings.star_img1 | img_url: '500x' }} 500w,
+								                                  {{ block.settings.star_img1 | img_url: '600x' }} 600w,
+								                                  {{ block.settings.star_img1 | img_url: '1000x' }} 1000w"
+								                	/>
+								 				{% endif %}
+				         					</div>
+				         					<div class="desc">
+				         						{{disc1 | truncatewords: 10 }}
+				         					</div>
+				         				</div>
+				         			</div>
+			         			{% endif %}
+			         			{% if block.settings.sec-col-image != blank %}
+				         			<div class="rew-cont">
+				         				<div class="pt-img">
+
+                                            {% if html5_video2 != blank %}
+											<a class="size_chart img_w_review img_w_review-icon" href="javascript:;" data-fancybox="" data-src="#size-chart-{{ block.id }}" data-type="inline" data-no-instant="">
+	            							{% endif %}		
+												<img src="{{ block.settings.sec-col-image | img_url: 'master'  }}">
+								         	
+                                  
+                                      {% if html5_video2 != blank %}
+                                        <svg class="play-icon-button-control" width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="60" fill="white"></rect><path fill-rule="evenodd" clip-rule="evenodd" d="M23 20V40L39 29.4248L23 20Z" fill="#323232"></path></svg>
+                                      </a>
+                                    {% endif %}
+				         				</div>
+				         				<div class="js-sizechart-lightbox video_review" id="size-chart-{{ block.id }}" style="display: none;">
+											<span class="">
+										        <video width="100%" height="100%" controls>
+										        <source src="{{ html5_video2 }}" type="video/mp4">
+										        <source src="{{ html5_video2 }}" type="video/ogg">
+										        </video>
+										    </span>
+										</div>
+				         				<div class="content-rev">
+				         					<div class="title-star">
+				         						<h2>{{ title2 }}</h2>
+				         						{% if block.settings.star_img2 != blank %}
+								                	<img alt="{{ block.settings.star_img2.alt | escape }}"
+								                     class="star_img lazyload {{ settings.image_loading_style }}"
+								                     data-sizes="25vw"
+								                     style="max-width: 100px; margin:auto;"
+								                     data-src="{{ block.settings.star_img2 | img_url: '2048x' }}"
+								                     data-srcset="{{ block.settings.star_img2 | img_url: '200x' }} 200w,
+								                                  {{ block.settings.star_img2 | img_url: '300x' }} 300w,
+								                                  {{ block.settings.star_img2 | img_url: '400x' }} 400w,
+								                                  {{ block.settings.star_img2 | img_url: '500x' }} 500w,
+								                                  {{ block.settings.star_img2 | img_url: '600x' }} 600w,
+								                                  {{ block.settings.star_img2 | img_url: '1000x' }} 1000w"
+								                	/>
+								 				{% endif %}
+				         					</div>
+				         					<div class="desc">
+				         						{{disc2 | truncatewords: 10 }}
+				         					</div>
+				         				</div>
+				         			</div>
+			         			{% endif %}
+			         		</div>
+			         		<div class="s-col">
+			         			{% if block.settings.sec-col-image != blank %}
+				         			<div class="rew-cont">
+				         				<div class="pt-img">
+                                  
+                                  {% if html5_video3 != blank %}
+									  <a class="size_chart img_w_review img_w_review-icon" href="javascript:;" data-fancybox="" data-src="#size-chart-{{ block.id }}" data-type="inline" data-no-instant="">
+                                    {% endif %}
+                                  <img src="{{ block.settings.sec-col-main-image | img_url: 'master'  }}">
+                                   {% if html5_video3 != blank %}
+                                     <svg class="play-icon-button-control" width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="60" fill="white"></rect><path fill-rule="evenodd" clip-rule="evenodd" d="M23 20V40L39 29.4248L23 20Z" fill="#323232"></path></svg>
+                                     </a>
+                                  {% endif %}
+				         				</div>
+				         				<div class="js-sizechart-lightbox video_review" id="size-chart-{{ block.id }}" style="display: none;">
+											<span class="">
+										        <video width="100%" height="100%" controls>
+										        <source src="{{ html5_video3 }}" type="video/mp4">
+										        <source src="{{ html5_video3 }}" type="video/ogg">
+										        </video>
+										    </span>
+										</div>
+				         				<div class="content-rev">
+				         					<div class="title-star">
+				         						<h2>{{ title3 }}</h2>
+				         						{% if block.settings.star_img3 != blank %}
+								                	<img alt="{{ block.settings.star_img3.alt | escape }}"
+								                     class="star_img lazyload {{ settings.image_loading_style }}"
+								                     data-sizes="25vw"
+								                     style="max-width: 100px; margin:auto;"
+								                     data-src="{{ block.settings.star_img3 | img_url: '2048x' }}"
+								                     data-srcset="{{ block.settings.star_img3 | img_url: '200x' }} 200w,
+								                                  {{ block.settings.star_img3 | img_url: '300x' }} 300w,
+								                                  {{ block.settings.star_img3 | img_url: '400x' }} 400w,
+								                                  {{ block.settings.star_img3 | img_url: '500x' }} 500w,
+								                                  {{ block.settings.star_img3 | img_url: '600x' }} 600w,
+								                                  {{ block.settings.star_img3 | img_url: '1000x' }} 1000w"
+								                	/>
+								 				{% endif %}
+				         					</div>
+				         					<div class="desc">
+				         						{{disc3 | truncatewords: 10 }}
+				         					</div>
+				         				</div>
+				         			</div>
+			         			{% endif %}
+			         		</div>
+			         		<div class="th-col">
+			         			<div class="thirs-m-row">
+			         				{% if block.settings.third-col-main-image != blank %}
+				         				<div class="rew-cont">
+					         				<div class="pt-img">
+
+                                       {% if html5_video4 != blank %}
+										  <a class="size_chart img_w_review img_w_review-icon" href="javascript:;" data-fancybox="" data-src="#size-chart-{{ block.id }}" data-type="inline" data-no-instant="">
+		            					{% endif %}			
+                                         <img src="{{ block.settings.third-col-main-image | img_url: 'master'  }}">
+									         	
+                                         {% if html5_video4 != blank %}
+                                         <svg class="play-icon-button-control" width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="60" fill="white"></rect><path fill-rule="evenodd" clip-rule="evenodd" d="M23 20V40L39 29.4248L23 20Z" fill="#323232"></path></svg>
+                                          </a>
+                                           {% endif %}
+					         				</div>
+					         				<div class="js-sizechart-lightbox video_review" id="size-chart-{{ block.id }}" style="display: none;">
+												<span class="">
+											        <video width="100%" height="100%" controls>
+											        <source src="{{ html5_video4 }}" type="video/mp4">
+											        <source src="{{ html5_video4 }}" type="video/ogg">
+											        </video>
+											    </span>
+											</div>
+					         				<div class="content-rev">
+					         					<div class="title-star">
+					         						<h2>{{ title4 }}</h2>
+					         						{% if block.settings.star_img4 != blank %}
+									                	<img alt="{{ block.settings.star_img4.alt | escape }}"
+									                     class="star_img lazyload {{ settings.image_loading_style }}"
+									                     data-sizes="25vw"
+									                     style="max-width: 100px; margin:auto;"
+									                     data-src="{{ block.settings.star_img4 | img_url: '2048x' }}"
+									                     data-srcset="{{ block.settings.star_img4 | img_url: '200x' }} 200w,
+									                                  {{ block.settings.star_img4 | img_url: '300x' }} 300w,
+									                                  {{ block.settings.star_img4 | img_url: '400x' }} 400w,
+									                                  {{ block.settings.star_img4 | img_url: '500x' }} 500w,
+									                                  {{ block.settings.star_img4 | img_url: '600x' }} 600w,
+									                                  {{ block.settings.star_img4 | img_url: '1000x' }} 1000w"
+									                	/>
+									 				{% endif %}
+					         					</div>
+					         					<div class="desc">
+					         						{{disc4 | truncatewords: 10 }}
+					         					</div>
+					         				</div>
+					         			</div>
+				         			{% endif %}
+				         			{% if block.settings.third-col-fifth-image != blank %}
+					         			<div class="rew-cont">
+					         				<div class="pt-img">
+                                      {% if html5_video5 != blank %}
+												<a class="size_chart img_w_review img_w_review-icon" href="javascript:;" data-fancybox="" data-src="#size-chart-{{ block.id }}" data-type="inline" data-no-instant="">
+		            					{% endif %}			
+                                        <img src="{{ block.settings.third-col-fifth-image | img_url: 'master'  }}">
+									         	
+                                        {% if html5_video5 != blank %}
+                                        <svg class="play-icon-button-control" width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="60" fill="white"></rect><path fill-rule="evenodd" clip-rule="evenodd" d="M23 20V40L39 29.4248L23 20Z" fill="#323232"></path></svg>
+
+                                      </a>
+                                          {% endif %}
+					         				</div>
+					         				<div class="js-sizechart-lightbox video_review" id="size-chart-{{ block.id }}" style="display: none;">
+												<span class="">
+											        <video width="100%" height="100%" controls>
+											        <source src="{{ html5_video5 }}" type="video/mp4">
+											        <source src="{{ html5_video5 }}" type="video/ogg">
+											        </video>
+											    </span>
+											</div>
+					         				<div class="content-rev">
+					         					<div class="title-star">
+					         						<h2>{{ title5 }}</h2>
+					         						{% if block.settings.star_img5 != blank %}
+									                	<img alt="{{ block.settings.star_img5.alt | escape }}"
+									                     class="star_img lazyload {{ settings.image_loading_style }}"
+									                     data-sizes="25vw"
+									                     style="max-width: 100px; margin:auto;"
+									                     data-src="{{ block.settings.star_img5 | img_url: '2048x' }}"
+									                     data-srcset="{{ block.settings.star_img5 | img_url: '200x' }} 200w,
+									                                  {{ block.settings.star_img5 | img_url: '300x' }} 300w,
+									                                  {{ block.settings.star_img5 | img_url: '400x' }} 400w,
+									                                  {{ block.settings.star_img5 | img_url: '500x' }} 500w,
+									                                  {{ block.settings.star_img5 | img_url: '600x' }} 600w,
+									                                  {{ block.settings.star_img5 | img_url: '1000x' }} 1000w"
+									                	/>
+									 				{% endif %}
+					         					</div>
+					         					<div class="desc">
+					         						{{disc5 | truncatewords: 10 }}
+					         					</div>
+					         				</div>
+					         			</div>
+				         			{% endif %}
+			         			</div>
+			         			{% if block.settings.Reviews-title != blank %}
+				         			<div class="more-rev-div-sli">
+				         				<h3>{{ block.settings.Reviews-title }}</h3>
+				         				{% if block.settings.Reviews-discription != blank %}
+				         				<p>{{ block.settings.Reviews-discription }}</p>
+				         				{% endif %}
+				         				{% if block.settings.review-button_label != blank %}
+				         				<a href="{{ block.settings.review_button_link }}">{{ block.settings.review-button_label }}</a>
+				         				{% endif %}
+				         			</div>
+			         			{% endif %}
+			         		</div>
+			         	</div>
+			        </div>
+			    </div>
+			{% endfor %}
+		</div>
+    </div>
+    </div> 
+</section>
+
+<style>
+.sub_hheading_r{margin-bottom:40px}
+@media only screen and (max-width: 798px){
+.sub_hheading_r{margin-bottom:10px; font-size: 14px;}
+.slider_review_h h3 { font-size: 20px; margin-bottom: 0px; margin-top: 10px;}
+/* .owl-carousel .owl-item img {width: 75%;  margin: auto;} */
+}
+</style>
+
+{% for block in blocks %}
+  
+
+    {% endfor %}
+
+
+{% schema %}
+{
+  "name": "Review Slider",
+  "class": "shopify-section--text-columns-with-images",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Text columns with images"
+    },
+  {
+      "type": "text",
+      "id": "sub_title",
+      "label": "Sub Heading",
+      "default": "Text columns with images"
+    },
+    {
+      "type": "header",
+      "content": "Advanced"
+    },
+    {
+      "type": "paragraph",
+      "content": "[Learn more](https://help.outofthesandbox.com/hc/en-us/articles/360022329373)"
+    },
+    {
+      "type": "text",
+      "id": "css_class",
+      "label": "CSS Class"
+    },
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text_block",
+      "name": "Column",
+      "limit": 20,
+      "settings": [
+        {
+	      "type": "header",
+	      "content": "First-column"
+	    },
+        {
+          "type": "image_picker",
+          "id": "first-col-image",
+          "label": "First Image"
+        },
+        {
+	      "type": "text",
+	      "id": "html5_video1",
+	      "label": "HTML5 MP4/OGV File URL"
+	    },
+        {
+          "type": "text",
+          "id": "Testimonial-title-1",
+          "label": "Testimonial title ",
+          "default": "Add a title or tagline"
+        },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "label": "Heading size",
+          "default": "regular_text",
+          "options": [
+            {
+              "value": "regular_text",
+              "label": "Regular"
+            },
+            {
+              "value": "large_text",
+              "label": "Large"
+            }
+          ]
+        },
+        {
+          "type": "richtext",
+          "id": "test-discription1",
+          "label": "Discription",
+          "default": "<p>Share blog posts, products, or promotions with your customers. Use this text to describe products, share details on availability and style, or as a space to display recent reviews or FAQs.</p>"
+        },
+		{
+          "type": "image_picker",
+          "id": "star_img1",
+          "label": "Image Star"
+        },
+        {
+	      "type": "header",
+	      "content": "Second Review"
+	    },
+	    {
+          "type": "image_picker",
+          "id": "sec-col-image",
+          "label": "Second Image"
+        },
+        {
+	      "type": "text",
+	      "id": "html5_video2",
+	      "label": "HTML5 MP4/OGV File URL"
+	    },
+        {
+          "type": "text",
+          "id": "Testimonial-title-2",
+          "label": "Testimonial title ",
+          "default": "Add a title or tagline"
+        },
+        {
+          "type": "richtext",
+          "id": "test-discription2",
+          "label": "Discription",
+          "default": "<p>Share blog posts, products, or promotions with your customers. Use this text to describe products, share details on availability and style, or as a space to display recent reviews or FAQs.</p>"
+        },
+		{
+          "type": "image_picker",
+          "id": "star_img2",
+          "label": "Image Star"
+        },
+        {
+	      "type": "header",
+	      "content": "Second-column"
+	    },
+	    {
+          "type": "image_picker",
+          "id": "sec-col-main-image",
+          "label": "Second Column Image"
+        },
+        {
+	      "type": "text",
+	      "id": "html5_video3",
+	      "label": "HTML5 MP4/OGV File URL"
+	    },
+        {
+          "type": "text",
+          "id": "Testimonial-title-3",
+          "label": "Testimonial title ",
+          "default": "Add a title or tagline"
+        },
+        {
+          "type": "richtext",
+          "id": "test-discription3",
+          "label": "Discription",
+          "default": "<p>Share blog posts, products, or promotions with your customers. Use this text to describe products, share details on availability and style, or as a space to display recent reviews or FAQs.</p>"
+        },
+		{
+          "type": "image_picker",
+          "id": "star_img3",
+          "label": "Image Star"
+        },
+	    {
+	      "type": "header",
+	      "content": "Third-column"
+	    },
+	    {
+          "type": "image_picker",
+          "id": "third-col-main-image",
+          "label": "Fourth Image"
+        },
+        {
+	      "type": "text",
+	      "id": "html5_video4",
+	      "label": "HTML5 MP4/OGV File URL"
+	    },
+        {
+          "type": "text",
+          "id": "Testimonial-title-4",
+          "label": "Testimonial title ",
+          "default": "Add a title or tagline"
+        },
+        {
+          "type": "richtext",
+          "id": "test-discription4",
+          "label": "Discription",
+          "default": "<p>Share blog posts, products, or promotions with your customers. Use this text to describe products, share details on availability and style, or as a space to display recent reviews or FAQs.</p>"
+        },
+		{
+          "type": "image_picker",
+          "id": "star_img4",
+          "label": "Image Star"
+        },
+        {
+          "type": "image_picker",
+          "id": "third-col-fifth-image",
+          "label": "Fifth Image"
+        },
+        {
+	      "type": "text",
+	      "id": "html5_video5",
+	      "label": "HTML5 MP4/OGV File URL"
+	    },
+        {
+          "type": "text",
+          "id": "Testimonial-title-5",
+          "label": "Testimonial title ",
+          "default": "Add a title or tagline"
+        },
+        {
+          "type": "richtext",
+          "id": "test-discription5",
+          "label": "Discription",
+          "default": "<p>Share blog posts, products, or promotions with your customers. Use this text to describe products, share details on availability and style, or as a space to display recent reviews or FAQs.</p>"
+        },
+		{
+          "type": "image_picker",
+          "id": "star_img5",
+          "label": "Image Star"
+        },
+        {
+	      "type": "header",
+	      "content": "Bottom-Box"
+	    },
+	    {
+          "type": "text",
+          "id": "Reviews-title",
+          "label": "Reviews title ",
+          "default": "Add a title or tagline"
+        },
+	    {
+          "type": "richtext",
+          "id": "Reviews-discription",
+          "label": "Discription",
+          "default": "<p>Share blog posts, products, or promotions with your customers. Use this text to describe products, share details on availability and style, or as a space to display recent reviews or FAQs.</p>"
+        },
+        {
+          "type": "text",
+          "id": "review-button_label",
+          "label": "Button label"
+        },
+        {
+          "type": "url",
+          "id": "review_button_link",
+          "label": "Button link"
+        },
+	    {
+	      "type": "header",
+	      "content": "Extra-content"
+	    },
+        {
+          "type": "select",
+          "id": "align_text",
+          "label": "Text alignment",
+          "default": "left",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "border_style",
+          "label": "Border style",
+          "default": "none",
+          "options": [
+            {
+              "value": "none",
+              "label": "None"
+            },
+            {
+              "value": "box",
+              "label": "Box"
+            },
+            {
+              "value": "quote",
+              "label": "Quote"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Home custom Review Slider",
+      "category": "Text",
+      "blocks": [
+        {
+          "type": "text_block"
+        },
+        {
+          "type": "text_block"
+        }
+      ]
+    }
+  ],
+  "templates": [
+    "index",
+    "product",
+    "page"
+  ]
+}
+
+{% endschema %}

@@ -1,0 +1,46 @@
+{% for link in linklists[menu].links %}
+  {% if linklists[link.handle] != empty %}
+  {% assign submenu = "submenu-parent" %}
+  {% else %}  
+   {% assign submenu = "" %}
+   {% endif %}   
+    <li class="hide_sale {{submenu}}" >
+  <a href="{{ link.url }}" class="{% if link.active %}active{% endif %} 
+  {% if link.url == '#' %}url-deadlink{% endif %} 
+  {% if linklists[link.handle] != empty %}
+    dropdown_link
+    {% else %} 
+    top_link {% endif %}" data-dropdown-rel="{{ link.handle }}">
+  {{ link.title }}
+  </a>
+{% if linklists[link.handle] != empty %}<span class="icon-down-arrow custome-arrow"></span>{% endif %}
+
+{% if linklists[link.handle] != empty %}
+     <ul class="submenu">
+          {% for link in linklists[link.handle].links %}
+            {% if linklists[link.handle] == empty %}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+            {% else %}
+              <li class="sublink">
+                {% if link.url == 'http://' or link.url == '' or link.url == '/' or link.url == 'https://' or link.url == '#' %}
+                  <a data-no-instant href="{{ link.url }}" class="parent-link--false">
+                    {{ link.title }} <span class="right icon-down-arrow"></span>
+                  </a>
+                {% else %}
+                  <a data-no-instant href="{{ link.url }}" class="parent-link--true">
+                    {{ link.title }} <span class="right icon-down-arrow"></span>
+                  </a>
+                {% endif %}
+                <ul>
+                  {% for link in linklists[link.handle].links %}
+                    <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+                  {% endfor %}
+                </ul>
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+  {% endif %}
+  
+  </li>
+{% endfor %}

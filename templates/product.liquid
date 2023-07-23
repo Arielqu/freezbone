@@ -1,0 +1,38 @@
+{% comment %}
+  The contents of the product.liquid template can be found in /sections/product-template.liquid
+{% endcomment %}
+
+{% unless product.tags contains 'hidden_product' %} 
+
+{% section 'product-template' %}
+ {% comment %}{% section 'Product-custom-review' %}
+{% section 'Product-video' %}
+  {% endcomment %}
+{% section 'collection_review_section' %}
+
+{% comment %}{% section 'product-recommendations' %}{% endcomment %}
+ <div id="looxReviews" data-product-id="{{product.id}}" class="loox-reviews-default">{{ product.metafields.loox.reviews }}</div> 
+{% include 'product__structured-data' %}
+<style>
+.owl-carousel .owl-stage-outer {width: 100%;}
+</style>
+
+ {% endunless%}
+
+{% if product.tags contains 'hidden_product' %}
+  <div style="font-size:25px; max-width:60%; margin:auto; text-align:center; padding:10% 0 5%; line-height:1.3;">
+This product is a free gift added automatically to the cart with a purchase of $75.
+    <style>
+    .product-app--container{display:none !important;}
+     </style>
+</div>
+{% endif %}
+
+<style>
+/*
+  @media only screen and (min-width: 799px){
+video {object-fit: cover;}
+.prod-video {height: 570px; overflow: hidden;}
+  }*/
+</style>
+<div data-rebuy-id="70844" data-rebuy-shopify-product-ids="{{ product.id }}"></div>
