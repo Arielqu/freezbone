@@ -1,0 +1,135 @@
+<style>
+  /* Timer */
+  #ac_countDown {
+      text-align: center;
+  }
+  #ac_countDown > h1{
+    color: #000000;
+    font-weight: bold;
+    font-size: 32px;
+    margin: 0 0 10px 0;
+  }
+  #ac_timer{
+      font-family: sans-serif;
+      color: #fff;
+      display: inline-block;
+      font-weight: 100;
+      text-align: center;
+      font-size: 16px;
+      margin-bottom: 20px;
+  }
+  #ac_timer > div{
+      padding: 10px 10px 0 10px;
+      border-radius: 3px;
+      background: #000000;
+      display: inline-block;
+  }
+  #ac_timer div > span{
+      padding: 10px;
+      border-radius: 3px;
+      background: #323232;
+      display: inline-block;
+      font-weight: 400;
+  }
+  .smalltext{
+      padding-top: 5px;
+      font-size: 14px;
+  }
+  .ac__colon {
+      padding: 10px 5px;
+      color: black;
+      align-items: center;
+      vertical-align: top;
+  }
+  @media only screen and (max-width: 768px) and (min-width: 700px) {
+        #ac_timer {
+            display: flex;
+            justify-content: center;
+        }
+        #ac_countDown > h1{
+        font-size: 30px;
+      }
+  }
+
+
+  /* Badges */
+  #ac__badges__container {
+     position: absolute;
+     top: 0;
+     left: 0;
+     z-index: 99;
+  }
+  #ac__badges__container img {
+     width: 150px;
+  }
+
+
+
+  /* BundleProducts */
+  .ac__bundleProducts_inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+  }
+  .ac__singleProductContainer {
+      width: 33%;
+      border: 1px dotted lightgray;
+      border-radius: 10px;
+      padding: 10px;
+  }
+  .ac__bundleProductTitle {
+      font-weight: 600;
+  }
+  .ac__bundleproductimage {
+      display: block;
+      margin: 0 auto;
+  }
+</style>
+
+
+<div id="ac_countDown" style="display: none;">
+  <h1>Deal of the day</h1>
+    <div id="ac_timer">
+      <div class="ac_day"> <span class="ac__days"></span> <p class="smalltext">Days</p> </div>
+      <span class="ac__colon hours">:</span>
+      <div> <span class="ac__hours"></span> <p class="smalltext">Hours</p> </div>
+      <span class="ac__colon minutes">:</span>
+      <div> <span class="ac__minutes"></span> <p class="smalltext">Minutes</p> </div>
+      <span class="ac__colon seconds">:</span>
+      <div class="ac_sec"> <span class="ac__seconds"></span> <p class="smalltext">Seconds</p> </div>
+    </div>
+</div>
+
+<!-- Badges html -->
+<!-- <div id="ac__badges__container" style="display: none;">
+        <img src="https://cdn.shopify.com/s/files/1/0093/6037/5866/files/Badge8.png?v=1622794601" />
+     </div> -->
+
+<script>
+
+//  Timer Style ==>
+  try{
+    var timer_settings = {{shop.metafields.ACPTiered.Timer.value | default: 'undefined' | json}};
+    var parsed_timer_settings = '';
+    try{
+      parsed_timer_settings = JSON.parse(timer_settings);
+    }
+    catch(e){
+      parsed_timer_settings = timer_settings;
+    }
+    setTimeout(function () {
+        jQuery('#ac_countDown h1').text(parsed_timer_settings.HeadingText);
+        jQuery('#ac_countDown h1').css({'color': parsed_timer_settings.Headingfontcolor, 'font-size': parsed_timer_settings.Headingfontsize, 'font-weight': parsed_timer_settings.Headingfontweight});      
+        jQuery('#ac_timer div').css({'background': parsed_timer_settings.Timerouterbackgroundcolor});
+        jQuery('#ac_timer div span').css({'background': parsed_timer_settings.Timerinnerbackgroundcolor, 'color': parsed_timer_settings.Timerfontcolor, 'font-size': parsed_timer_settings.Timerfontsize});
+    },500);
+  }
+  catch(e){}
+  
+//   Badges ==>
+
+//   if( jQuery('.template-product').length > 0 ){
+//      jQuery("#ac__badges__container").css("display", "block");
+//   	jQuery('.lightbox').after(jQuery("#ac__badges__container"));
+//   }
+</script>

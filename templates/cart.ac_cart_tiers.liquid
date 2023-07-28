@@ -1,0 +1,65 @@
+{% layout none %}
+{% capture results %}
+{% assign customerTag = '' %}
+{% if customer %}
+{% for tag in customer.tags %}
+{% if tag contains "acp_" %}
+{% assign customerTag = tag %}
+{% break %}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% for item in cart.items %}
+{ "product_id": {{item.product_id}}, "variant_id": {{item.variant.id }}, 
+{% assign checkAutTag = false %}
+     
+{% assign tempCutomerCart = item.product.metafields.ACPTiered.CustomerTiers.value | default: 'string'  %}
+  
+   {% if tempCutomerCart contains 'string' %}
+{% assign CartProductTags = shop.metafields.ACPTiered.CustomerTiersAllProducts.value | default: nil  %}
+{% if CartProductTags == null %}
+{% assign CartProductTags = shop.metafields.ACPTiered.CustomerTiersAllProducts %}
+{% endif %}
+{% assign CartProductTags =  CartProductTags  | map: 'tag' %}
+{% assign _CustTags = customer.tags  %}
+{% assign _ShopTags = shop.metafields.ACPTiered.Tags.value.Tags  %}{% assign newCustomerTagList = '' %}{% for _tag in _ShopTags %}
+{% if _CustTags contains _tag %}{% assign newCustomerTagList = newCustomerTagList | append: ',' | append: _tag %}{% endif %}
+{% endfor %}{% assign newCustomerTagList = newCustomerTagList | split: ',' %}{% for tag in newCustomerTagList %}{% if tag contains "acp_" %}{%else%}{% if CartProductTags contains tag %}{% assign checkAutTag = true %}{%assign customerTag = tag %}{%break%}{% endif %}{% endif %}{% endfor %}{% if checkAutTag == false %}{% for tag in customer.tags %}{% if tag contains "acp_" %}{% assign customerTag = tag %}{% break %}{% endif %}{% endfor %}{% endif %}
+ 
+   {% else %}
+     
+{% assign CartProductTags = item.product.metafields.ACPTiered.CustomerTiers.value | default: nil  %}
+{% if CartProductTags == null %}
+{% assign CartProductTags = item.product.metafields.ACPTiered.CustomerTiers %}
+{% endif %}
+{% assign CartProductTags =  CartProductTags  | map: 'tag' %}
+{% assign _CustTags = customer.tags  %}
+{% assign _ShopTags = shop.metafields.ACPTiered.Tags.value.Tags  %}{% assign newCustomerTagList = '' %}{% for _tag in _ShopTags %}
+{% if _CustTags contains _tag %}{% assign newCustomerTagList = newCustomerTagList | append: ',' | append: _tag %}{% endif %}
+{% endfor %}{% assign newCustomerTagList = newCustomerTagList | split: ',' %}{% for tag in newCustomerTagList %}{% if tag contains "acp_" %}{%else%}{% if CartProductTags contains tag %}{% assign checkAutTag = true %}{%assign customerTag = tag %}{%break%}{% endif %}{% endif %}{% endfor %}{% if checkAutTag == false %}{% for tag in customer.tags %}{% if tag contains "acp_" %}{% assign customerTag = tag %}{% break %}{% endif %}{% endfor %}{% endif %}
+ 
+   {% endif %}
+{% assign tempCutomerCart = item.product.metafields.ACPTiered.CustomerTiers.value | default: 'string'  %}
+  
+  {% assign tempCustomerTierCartvalue = item.product.metafields.ACPTiered.CustomerTiers.value | where: "tag", customerTag | default: nil  %}
+    {% assign tempCustomerTierCartvaluecheck = tempCustomerTierCartvalue[0]['tier'].status %}
+{% if tempCutomerCart contains 'string' or tempCustomerTierCartvaluecheck == false %}
+{% assign tempCustomerTierCart = shop.metafields.ACPTiered.CustomerTiersAllProducts.value | where: "tag", customerTag | default: nil  %}
+{%else%}
+{% assign tempCustomerTierCart = item.product.metafields.ACPTiered.CustomerTiers.value | where: "tag", customerTag | default: nil  %}
+{% endif %}
+
+{% if customerTag != '' and tempCustomerTierCart %}
+"tiers" : [{{tempCustomerTierCart[0]['tier'] | json}}] 
+{% else %}
+{% assign tempNormalTierCart = item.product.metafields.ACPTiered.NormalTiers.value | default: 'string'  %}
+{% assign StatusValue = item.product.metafields.ACPTiered.NormalTiers.value[0].status   %}
+{% assign tempNormalTierCart = item.product.metafields.ACPTiered.NormalTiers.value | default: 'string'  %}
+{% if tempNormalTierCart contains 'string' or StatusValue == false %}
+"tiers" : {{shop.metafields.ACPTiered.NormalTiersAllProducts.value | default: '[]' | json}}
+{% else %} 
+"tiers" : {{item.product.metafields.ACPTiered.NormalTiers.value | default: '[]' | json}}
+{% endif %}
+{% endif %}  }
+{% unless forloop.last %},{% endunless %} {% endfor %}{% endcapture %}
+[{{results}}]

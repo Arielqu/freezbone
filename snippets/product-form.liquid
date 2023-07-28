@@ -7,11 +7,7 @@
 {% endif %}
 
 {% assign variant = product.selected_or_first_available_variant %}
-<style>
-  .image__container{
-    min-height:330px;
-  }
-</style>
+
 <div class="clearfix product_form init smart-payment-button--{{ show_payment_button }} {% if product.variants.size > 1 or product.options.size > 1 %}product_form_options{% endif %} product_form--{{ settings.product_form_style }}"
       id="product-form-{{ product.id }}"
       data-product-form
@@ -79,42 +75,38 @@
 
 
 
-{% if product.tags contains "Bundle" or product.tags contains "Bundles" %}
+{% if product.tags contains "Bundle" %}
  <div class="swatch_options">
       
-<div class="swatch is-flex is-flex-wrap">
-<!--   <div class="option_title">Flavor</div> -->
+<div class="swatch is-flex is-flex-wrap"> <div class="option_title">Flavor</div>
 
+<div class="swatch-element chicken-swatch bundle_s" style="border-color: #000;"> <label style="position:relative; height: 30px; display: initial;">
+          Chicken <!--?xml version="1.0" ?--><svg viewBox="0 0 32 32" class="svg_size" xmlns="http://www.w3.org/2000/svg"><defs><style>.cls-1{fill:none;}</style></defs><title></title><g data-name="Layer 2" id="Layer_2"><path d="M15,21a1,1,0,0,1-.71-.29l-4-4a1,1,0,0,1,1.42-1.42L15,18.59l6.29-6.3a1,1,0,0,1,1.42,1.42l-7,7A1,1,0,0,1,15,21Z"></path><path d="M16,29A13,13,0,1,1,29,16,13,13,0,0,1,16,29ZM16,5A11,11,0,1,0,27,16,11,11,0,0,0,16,5Z"></path></g><g id="frame"><rect class="cls-1" height="32" width="32"></rect></g></svg></label></div>
+    
+  
 
-    {% comment %}
-  <div class="swatch-element chicken-swatch bundle_s" style="border-color: #000;">
-
-
-
-  <label style="position:relative; height: 30px; display: initial;">
-Chicken <!--?xml version="1.0" ?--><svg viewBox="0 0 32 32" class="svg_size" xmlns="http://www.w3.org/2000/svg"><defs><style>.cls-1{fill:none;}</style></defs><title></title><g data-name="Layer 2" id="Layer_2"><path d="M15,21a1,1,0,0,1-.71-.29l-4-4a1,1,0,0,1,1.42-1.42L15,18.59l6.29-6.3a1,1,0,0,1,1.42,1.42l-7,7A1,1,0,0,1,15,21Z"></path><path d="M16,29A13,13,0,1,1,29,16,13,13,0,0,1,16,29ZM16,5A11,11,0,1,0,27,16,11,11,0,0,0,16,5Z"></path></g><g id="frame"><rect class="cls-1" height="32" width="32"></rect></g></svg></label></div>
 
 <!-- <div class="swatch-element beef-swatch bundle_s" style="border-color: #000;"> <label style="position:relative; height: 30px; display: initial;">
             Beef <?xml version="1.0" ?><svg viewBox="0 0 32 32" class="svg_size" xmlns="http://www.w3.org/2000/svg"><defs><style>.cls-1{fill:none;}</style></defs><title/><g data-name="Layer 2" id="Layer_2"><path d="M15,21a1,1,0,0,1-.71-.29l-4-4a1,1,0,0,1,1.42-1.42L15,18.59l6.29-6.3a1,1,0,0,1,1.42,1.42l-7,7A1,1,0,0,1,15,21Z"/><path d="M16,29A13,13,0,1,1,29,16,13,13,0,0,1,16,29ZM16,5A11,11,0,1,0,27,16,11,11,0,0,0,16,5Z"/></g><g id="frame"><rect class="cls-1" height="32" width="32"/></g></svg></label></div> -->
+    
+  
 
 <div class="swatch-element duck-swatch bundle_s" style="border-color: #000;"> <label style="position:relative; height: 30px; display: initial;">
             Duck <!--?xml version="1.0" ?--><svg viewBox="0 0 32 32" class="svg_size" xmlns="http://www.w3.org/2000/svg"><defs><style>.cls-1{fill:none;}</style></defs><title></title><g data-name="Layer 2" id="Layer_2"><path d="M15,21a1,1,0,0,1-.71-.29l-4-4a1,1,0,0,1,1.42-1.42L15,18.59l6.29-6.3a1,1,0,0,1,1.42,1.42l-7,7A1,1,0,0,1,15,21Z"></path><path d="M16,29A13,13,0,1,1,29,16,13,13,0,0,1,16,29ZM16,5A11,11,0,1,0,27,16,11,11,0,0,0,16,5Z"></path></g><g id="frame"><rect class="cls-1" height="32" width="32"></rect></g></svg></label></div> <div class="swatch-element liver-swatch bundle_s" style="border-color: #000;"> <label style="position:relative; height: 30px; display: initial;">
             Beef <!--?xml version="1.0" ?--><svg viewBox="0 0 32 32" class="svg_size" xmlns="http://www.w3.org/2000/svg"><defs><style>.cls-1{fill:none;}</style></defs><title></title><g data-name="Layer 2" id="Layer_2"><path d="M15,21a1,1,0,0,1-.71-.29l-4-4a1,1,0,0,1,1.42-1.42L15,18.59l6.29-6.3a1,1,0,0,1,1.42,1.42l-7,7A1,1,0,0,1,15,21Z"></path><path d="M16,29A13,13,0,1,1,29,16,13,13,0,0,1,16,29ZM16,5A11,11,0,1,0,27,16,11,11,0,0,0,16,5Z"></path></g><g id="frame"><rect class="cls-1" height="32" width="32"></rect></g></svg></label></div>
     
 <div class="swatch-element liver-swatch bundle_s" style="border-color: #000;"> <label style="position:relative; height: 30px; display: initial;">
-            liver <!--?xml version="1.0" ?--><svg viewBox="0 0 32 32" class="svg_size" xmlns="http://www.w3.org/2000/svg"><defs><style>.cls-1{fill:none;}</style></defs><title></title><g data-name="Layer 2" id="Layer_2"><path d="M15,21a1,1,0,0,1-.71-.29l-4-4a1,1,0,0,1,1.42-1.42L15,18.59l6.29-6.3a1,1,0,0,1,1.42,1.42l-7,7A1,1,0,0,1,15,21Z"></path><path d="M16,29A13,13,0,1,1,29,16,13,13,0,0,1,16,29ZM16,5A11,11,0,1,0,27,16,11,11,0,0,0,16,5Z"></path></g><g id="frame"><rect class="cls-1" height="32" width="32"></rect></g></svg></label>
- 
-  </div>
-     {% endcomment %}
+            liver <!--?xml version="1.0" ?--><svg viewBox="0 0 32 32" class="svg_size" xmlns="http://www.w3.org/2000/svg"><defs><style>.cls-1{fill:none;}</style></defs><title></title><g data-name="Layer 2" id="Layer_2"><path d="M15,21a1,1,0,0,1-.71-.29l-4-4a1,1,0,0,1,1.42-1.42L15,18.59l6.29-6.3a1,1,0,0,1,1.42,1.42l-7,7A1,1,0,0,1,15,21Z"></path><path d="M16,29A13,13,0,1,1,29,16,13,13,0,0,1,16,29ZM16,5A11,11,0,1,0,27,16,11,11,0,0,0,16,5Z"></path></g><g id="frame"><rect class="cls-1" height="32" width="32"></rect></g></svg></label></div>
+    
 
 
 
    
-<div class="svg_clr" style="text-align:left; position: relative; padding-bottom: 0px;">   
+<div class="svg_clr" style="text-align:left; position: relative; padding-bottom: 16px;">   
 <input style="visibility: hidden;" type="checkbox" id="MattGold" name="properties[Bundle (All fillers are added in the bundle.)]" checked="" value="All fillers are added in the bundle.
 " onclick="checkColor()">
 <!--?xml version="1.0" ?--><svg viewBox="0 0 32 32" style=" position: absolute; left:0; width: 25px; height: 25px; fill: green; line-height: 25px; " xmlns="http://www.w3.org/2000/svg"><defs><style>.cls-1{fill:none;}</style></defs><title></title><g data-name="Layer 2" id="Layer_2"><path d="M15,21a1,1,0,0,1-.71-.29l-4-4a1,1,0,0,1,1.42-1.42L15,18.59l6.29-6.3a1,1,0,0,1,1.42,1.42l-7,7A1,1,0,0,1,15,21Z"></path><path d="M16,29A13,13,0,1,1,29,16,13,13,0,0,1,16,29ZM16,5A11,11,0,1,0,27,16,11,11,0,0,0,16,5Z"></path></g><g id="frame"><rect class="cls-1" height="32" width="32"></rect></g></svg>
-<span style="padding-left:30px; font-size: 18px;">All flavors are included in this bundle: Chicken, Beef, Duck Liver.</span>
+<span style="padding-left:30px; font-size: 18px;">All fillers are added in the bundle.</span>
 </div>
 </div>
   </div>
@@ -141,7 +133,8 @@ Chicken <!--?xml version="1.0" ?--><svg viewBox="0 0 32 32" class="svg_size" xml
       {% endif %}
 
       {% capture add_to_cart_label %}{% if collection_handles contains 'pre-order' %}{{ 'collections.general.pre_order' | t }}{% else %}{{ 'products.product.add_to_cart' | t }}{% endif %}{% endcapture %}
-      <button type="{% if settings.cart_action == 'ajax' %}button{% else %}submit{% endif %}" name="add" class="{% if settings.cart_action == 'ajax' %} ajax-submit {% endif %}action_button add_to_cart {% if show_payment_button %} action_button--secondary {% endif %} {% if product.available == false %}disabled{% endif %}" data-label={{ add_to_cart_label | json }}>
+   
+      <button id="myAdd" type="{% if settings.cart_action == 'ajax' %}button{% else %}button{% endif %}" name="add" class="{% if settings.cart_action == 'ajax' %} ajax-submit {% endif %}action_button add_to_cart  {% if show_payment_button %} action_button--secondary {% endif %} {% if product.available == false %}disabled{% endif %}" data-label={{ add_to_cart_label | json }}>
         <span class="text">
           {% if product.available %}{{ add_to_cart_label }}{% else %}{{ settings.sold_out_text }}{% endif %}
         </span>
@@ -149,41 +142,17 @@ Chicken <!--?xml version="1.0" ?--><svg viewBox="0 0 32 32" class="svg_size" xml
           <path fill="none" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M9,17l3.9,3.9c0.1,0.1,0.2,0.1,0.3,0L23,11"/>
         </svg>
       </button>
+          
       {% if show_payment_button %}
         {{ form | payment_button }}
       {% endif %}
     </div>
   </div>
 {% endform %}
- 
+
+
             
-</div> 
+</div>
 
-<script>
-  var add_to_cart_gtag = {
-  currency: "USD",
-  value: 0,
-  items: [
-    {
-      item_id: "ID_{{ product.id }}",
-      variation_id: "ID_{{ variant.id }}",
-      item_name: "{{product.title}}", 
-      discount: 0,
-      index: 0,
-      item_brand: "",
-      item_category: "",
-      item_category2: "",
-      item_category3: "",
-      item_category4: "",
-      item_category5: "",
-      item_list_id: "",
-      item_list_name: "",
-      item_variant: "",
-      price: {{variant.price}},
-      quantity: 1
-    }
-  ]
-};
-</script>
-       
 
+           

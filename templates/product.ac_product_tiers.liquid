@@ -1,0 +1,21 @@
+{% layout none %}{% capture results %}
+{% if customer %}
+{% for tag in customer.tags %}
+{% if tag contains "acp_" %}
+{% assign customerTag = tag %}
+{% break %}
+{% endif %}
+{% endfor %}
+{% endif %}
+{
+"product_id": {{product_id}},
+"variant_id": {{item.variant.id }},
+{% assign temp3 = product.metafields.ACPTiered.CustomerTiers.value | where: "tag", customerTag | default: nil  %}
+{% if customerTag != '' and temp3 %}
+"tiers" : [{{temp3[0]['tier'] | json}}]
+{% else %}
+"tiers" : {{item.product.metafields.ACPTiered.NormalTiers.value | default: '[]' | json}}
+{% endif %}
+}
+{% endcapture %}
+[{{results}}]

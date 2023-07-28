@@ -1,0 +1,173 @@
+<script>
+  window.jQuery || document.write('<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"><\/script>')
+</script>
+{% if shop.metafields.ACPTiered.EnableDisable == true %}
+{{ 'ac-tiered-style.css' | asset_url | stylesheet_tag }}
+<div style="display:none" id="ac-money-format">{{shop.money_format}}</div>
+<style>
+  @media only screen and (max-width: 600px) {
+    #saved-banner-div {
+      text-align: center;
+    }
+  }
+</style>
+<script type="text/javascript" defer>
+   {% assign customerTag = '' %}
+    var ACDiscountApp = ACDiscountApp || {};ACDiscountApp.Common = ACDiscountApp.Common || {};ACDiscountApp.CartPage = ACDiscountApp.CartPage || {};ACDiscountApp.PDPage = ACDiscountApp.PDPage || {};
+  	ACDiscountApp.Common.GlobalFields = function () {
+      {% assign isCustomer = false %}this.isCustomer = false;this.customerTag = '';{% if customer %}{% assign isCustomer = true %} this.isCustomer = {{ isCustomer }}; {% for tag in customer.tags %}{% if tag contains "acp_" %}{% assign customerTag = tag %} {% break %}{% endif %} {% endfor %} this.customerTag = '{{customerTag}}';{% endif %}
+	this.currency = '{{shop.currency}}';
+	this.formatMoney=function(b,g){if(typeof Shopify.formatMoney==="function"){return Shopify.formatMoney(b,g)}if(typeof b=="string"){b=b.replace(".","")}var f="";var e=/\{\{\s*(\w+)\s*\}\}/;var a=g||"${{amount}}";function c(h,i){return(typeof h=="undefined"?i:h)}function d(m,k,l,j){k=c(k,2);l=c(l,",");j=c(j,".");if(isNaN(m)||m==null){return 0}m=(m/100).toFixed(k);var n=m.split("."),i=n[0].replace(/(\d)(?=(\d\d\d)+(?!\d))/g,"$1"+l),h=n[1]?(j+n[1]):"";return i+h}switch(a.match(e)[1]){case"amount":f=d(b,2);break;case"amount_no_decimals":f=d(b,0);break;case"amount_with_comma_separator":f=d(b,2,".",",");break;case"amount_no_decimals_with_comma_separator":f=d(b,0,".",",");break}return a.replace(e,f)};
+	this.currencySymbol = (document.getElementById("ac-money-format").textContent).trim();this.currencySymbol = this.currencySymbol.split("}");this.currencySymbol = this.currencySymbol[2];
+	this.amount = (document.getElementById("ac-money-format").textContent).trim();
+      
+      var calcTime = function(offset_) {d_ = new Date();utc_ = d_.getTime() + (d_.getTimezoneOffset() * 60000);nd_ = new Date(utc_ + (3600000 * offset_));return Date.parse(nd_.getMonth()+ 1 +"/"+nd_.getDate()+"/"+ nd_.getFullYear() +" "+nd_.getHours()+":"+nd_.getMinutes());} 
+      this.StartEndDateValid = function (startDate, endDate) { var isStrtDtVald_ = false; var isEndDtVald_ = false; var todayDate_ = calcTime(globalFields.settings.timezone); if (startDate != null) { var startDate_ = Date.parse(startDate); isStrtDtVald_ = todayDate_ >= startDate_; } else { isStrtDtVald_ = true; } if (endDate != null) { var endDate_ = Date.parse(endDate); isEndDtVald_ = todayDate_ <= endDate_; } else { isEndDtVald_ = true; }if (isStrtDtVald_ && isEndDtVald_) { return true; }else { return false; } }
+
+      var TimercalcTime = function(offset_) {
+        d_ = new Date();
+        utc_ = d_.getTime() + (d_.getTimezoneOffset() * 60000);
+        nd_ = new Date(utc_ + (3600000 * offset_));
+        return Date.parse(nd_.getMonth()+ 1 +"/"+nd_.getDate()+"/"+ nd_.getFullYear() +" "+nd_.getHours()+":"+nd_.getMinutes());
+      } 
+      this.TimerStartEndDateValid = function (startDate, endDate) { 
+        var isStrtDtVald_ = false; var isEndDtVald_ = false; 
+        var todayDate_ = calcTime(globalFields.settings.timezone); 
+        if (startDate != null) { var startDate_ = Date.parse(startDate); isStrtDtVald_ = todayDate_ >= startDate_; }
+        else { isStrtDtVald_ = true; } 
+        if (endDate != null) { var endDate_ = Date.parse(endDate); isEndDtVald_ = todayDate_ <= endDate_; }
+        else { isEndDtVald_ = true; }
+        if (isStrtDtVald_ && isEndDtVald_) { return {valid: true, start_date: startDate, end_date: endDate } }else { return {valid:false} } }
+      
+      this.GetTierObject = function (metafieldArray, variantId) { 
+      var obj = metafieldArray.tier !== undefined ? metafieldArray.tier : metafieldArray; 
+      if (obj.entity_type === "variants") {  
+        var variantIndex = obj.variant_ids.indexOf(variantId.toString()) != -1 ? obj.variant_ids.indexOf(variantId.toString()) : obj.variant_ids.indexOf(Number(variantId));
+        if (variantIndex !== -1) { 
+          var objToReturn = { entity_type: "variants", discount_type: obj.discount_type[variantIndex], status: obj.status[variantIndex], tier_min: obj.tier_min[variantIndex], tier_max: obj.tier_max[variantIndex], tier_values: obj.tier_values[variantIndex], start_date: obj.start_date[variantIndex], end_date: obj.end_date[variantIndex],Location_Tag_: obj.Location_Tag_ !=undefined && obj.Location_Tag_ !=null ? obj.Location_Tag_[variantIndex] : null,DiscountAppliedON:obj.DiscountAppliedON !=undefined && obj.DiscountAppliedON != null ? obj.DiscountAppliedON[variantIndex]:null }; return objToReturn; } 
+        else { return undefined; } 
+      } 
+      else { return obj; } }
+
+    this.ConvertToFixedDecimalString = function (amount) { return amount.toFixed(2); }
+    this.TableProductPage =  '{{ shop.metafields.ACPTiered.ProductTable }}'
+    let CustomercityArray = [];
+    let CustomercountryArray = [];
+    {% for address in customer.addresses %}
+    CustomercityArray.push('{{address.city | downcase }}');
+    CustomercountryArray.push('{{address.country | downcase }}');
+    {% endfor %}
+    this.Storecountry = '{{shop.address.country}}'
+    this.Storecity = '{{shop.address.city}}'
+    this.Customercountry = CustomercityArray
+    this.Customercity = CustomercountryArray
+      this.PageOption ='{{ template.name }}'
+    this.ConvertToFixedDecimalNumber = function (amount) { return Number(amount.toFixed(2)); }
+	{% if template.name == 'product' %} this.isProduct_Page = true; this.productId = '{{product.id}}'; {% endif %} {% assign isCartPage = false %} {% if template.name == 'cart' %} {% assign isCartPage = true %} {% endif %} this.isCartPage = {{ isCartPage }};  {% assign isProductPage = false %} {% if template.name == 'product' %} {% assign isProductPage = true %} {% endif %}  this.isProductPage = {{ isProductPage }}; this.settings = {{shop.metafields.ACPTiered.Settings.value | default: 'undefined' | json}}; }
+
+    ACDiscountApp.PDPage.Global = function () { 
+    this.variantsPriceArray_PD=[]; 
+      {% assign checkAutTag = false %}
+      {% assign tempCutomerProduct = product.metafields.ACPTiered.CustomerTiers.value | default: 'string'   %}
+       
+       {% if tempCutomerProduct contains 'string' %}
+        
+      {% assign ProductTags = shop.metafields.ACPTiered.CustomerTiersAllProducts.value | default: nil  %}
+      {% if ProductTags == null %}
+      {% assign ProductTags = shop.metafields.ACPTiered.CustomerTiersAllProducts %}
+      {% endif %}
+      {% assign ProductTags =  ProductTags  | map: 'tag' %}
+      {% assign _CustTags = customer.tags  %}{% assign _ShopTags = shop.metafields.ACPTiered.Tags.value.Tags  %}{% assign newCustomerTagList = '' %}{% for _tag in _ShopTags %}{% if _CustTags contains _tag %}{% assign newCustomerTagList = newCustomerTagList | append: ',' | append: _tag %}{% endif %}{% endfor %}{% assign newCustomerTagList = newCustomerTagList | split: ',' %}{% for tag in newCustomerTagList %}{% if tag contains "acp_" %}{%else%}{% if ProductTags contains tag %}{% assign checkAutTag = true %}{%assign customerTag = tag %}{%break%}{% endif %}{% endif %}{% endfor %}{% if checkAutTag == false %}{% for tag in customer.tags %}{% if tag contains "acp_" %}{% assign customerTag = tag %}{% break %}{% endif %}{% endfor %}{% endif %}
+      
+      {% else %}
+        
+      {% assign ProductTags = product.metafields.ACPTiered.CustomerTiers.value | default: nil  %}
+      {% if ProductTags == null %}
+      {% assign ProductTags = product.metafields.ACPTiered.CustomerTiers %}
+      {% endif %}
+      {% assign ProductTags =  ProductTags  | map: 'tag' %}
+      {% assign _CustTags = customer.tags  %}{% assign _ShopTags = shop.metafields.ACPTiered.Tags.value.Tags  %}{% assign newCustomerTagList = '' %}{% for _tag in _ShopTags %}{% if _CustTags contains _tag %}{% assign newCustomerTagList = newCustomerTagList | append: ',' | append: _tag %}{% endif %}{% endfor %}{% assign newCustomerTagList = newCustomerTagList | split: ',' %}{% for tag in newCustomerTagList %}{% if tag contains "acp_" %}{%else%}{% if ProductTags contains tag %}{% assign checkAutTag = true %}{%assign customerTag = tag %}{%break%}{% endif %}{% endif %}{% endfor %}{% if checkAutTag == false %}{% for tag in customer.tags %}{% if tag contains "acp_" %}{% assign customerTag = tag %}{% break %}{% endif %}{% endfor %}{% endif %}
+      {% endif %}
+      {% assign Statuscustomer = product.metafields.ACPTiered.CustomerTiers.value[0]['tier'].status  %}
+      {% if tempCutomerProduct contains 'string' or Statuscustomer == false %}
+      
+      {% assign tempCustomerTier = shop.metafields.ACPTiered.CustomerTiersAllProducts.value | where: "tag", customerTag | default: nil  %}  
+      {% else %}
+      {% assign tempCustomerTier = product.metafields.ACPTiered.CustomerTiers.value | where: "tag", customerTag | default: nil  %} 
+      {% endif %}
+      {% if customerTag != '' and tempCustomerTier  %}
+      this.productMetafield = {{ tempCustomerTier[0]['tier'] | json}};
+      {% else %} 
+      {% assign tempNormalTierProduct = product.metafields.ACPTiered.NormalTiers.value[0]  | default: 'string'  | json %}
+      {% assign Status__ = product.metafields.ACPTiered.NormalTiers.value[0].status %}
+      {% if tempNormalTierProduct contains 'string' or Status__ ==  false %}
+      this.productMetafield = {{shop.metafields.ACPTiered.NormalTiersAllProducts.value[0] | default: "[]" | json}};
+      {% else %} 
+      this.productMetafield = {{product.metafields.ACPTiered.NormalTiers.value[0] | default: "[]" | json}};
+      {% endif %}
+      {% endif %} {% for variant in product.variants %}this.variantsPriceArray_PD[{{ variant.id }}]= {{ variant.price }};
+      {% endfor %}  }
+
+    ACDiscountApp.CartPage.Global = function () {
+ this.cartObj= {{cart | json | default : 'undefined'}};
+	{% capture results %} {% for item in cart.items %}
+ { "product_id": {{item.product_id}}, "variant_id": {{item.variant.id }},
+ {% assign checkAutTag = false %}
+      
+   {% assign tempCutomerCart = item.product.metafields.ACPTiered.CustomerTiers.value | default: 'string'  %}
+  
+   {% if tempCutomerCart contains 'string' %}
+{% assign CartProductTags = shop.metafields.ACPTiered.CustomerTiersAllProducts.value | default: nil  %}
+{% if CartProductTags == null %}
+{% assign CartProductTags = shop.metafields.ACPTiered.CustomerTiersAllProducts %}
+{% endif %}
+{% assign CartProductTags =  CartProductTags  | map: 'tag' %}
+{% assign _CustTags = customer.tags  %}
+{% assign _ShopTags = shop.metafields.ACPTiered.Tags.value.Tags  %}{% assign newCustomerTagList = '' %}{% for _tag in _ShopTags %}
+{% if _CustTags contains _tag %}{% assign newCustomerTagList = newCustomerTagList | append: ',' | append: _tag %}{% endif %}
+{% endfor %}{% assign newCustomerTagList = newCustomerTagList | split: ',' %}{% for tag in newCustomerTagList %}{% if tag contains "acp_" %}{%else%}{% if CartProductTags contains tag %}{% assign checkAutTag = true %}{%assign customerTag = tag %}{%break%}{% endif %}{% endif %}{% endfor %}{% if checkAutTag == false %}{% for tag in customer.tags %}{% if tag contains "acp_" %}{% assign customerTag = tag %}{% break %}{% endif %}{% endfor %}{% endif %}
+ 
+   {% else %}
+     
+{% assign CartProductTags = item.product.metafields.ACPTiered.CustomerTiers.value | default: nil  %}
+{% if CartProductTags == null %}
+{% assign CartProductTags = item.product.metafields.ACPTiered.CustomerTiers %}
+{% endif %}
+{% assign CartProductTags =  CartProductTags  | map: 'tag' %}
+{% assign _CustTags = customer.tags  %}
+{% assign _ShopTags = shop.metafields.ACPTiered.Tags.value.Tags  %}{% assign newCustomerTagList = '' %}{% for _tag in _ShopTags %}
+{% if _CustTags contains _tag %}{% assign newCustomerTagList = newCustomerTagList | append: ',' | append: _tag %}{% endif %}
+{% endfor %}{% assign newCustomerTagList = newCustomerTagList | split: ',' %}{% for tag in newCustomerTagList %}{% if tag contains "acp_" %}{%else%}{% if CartProductTags contains tag %}{% assign checkAutTag = true %}{%assign customerTag = tag %}{%break%}{% endif %}{% endif %}{% endfor %}{% if checkAutTag == false %}{% for tag in customer.tags %}{% if tag contains "acp_" %}{% assign customerTag = tag %}{% break %}{% endif %}{% endfor %}{% endif %}
+ 
+   {% endif %}
+    {% assign tempCustomerTierCartvalue = item.product.metafields.ACPTiered.CustomerTiers.value | where: "tag", customerTag | default: nil  %}
+    {% assign tempCustomerTierCartvaluecheck = tempCustomerTierCartvalue[0]['tier'].status %}
+    
+    {% if tempCutomerCart contains 'string' or tempCustomerTierCartvaluecheck == false %}
+    {% assign tempCustomerTierCart = shop.metafields.ACPTiered.CustomerTiersAllProducts.value | where: "tag", customerTag | default: nil  %}
+    {% else %}
+    {% assign tempCustomerTierCart = item.product.metafields.ACPTiered.CustomerTiers.value | where: "tag", customerTag | default: nil  %}
+    {% endif %}
+  
+  {% if customerTag != '' and tempCustomerTierCart %}
+ "tiers" : [{{tempCustomerTierCart[0]['tier'] | json}}] 
+ {% else %} 
+  {% assign tempNormalTierCart = item.product.metafields.ACPTiered.NormalTiers.value | default: 'string'  %}
+    {% assign StatusValue = item.product.metafields.ACPTiered.NormalTiers.value[0].status   %}
+  
+  {% if tempNormalTierCart contains 'string' or StatusValue == false %}
+  "tiers" : {{shop.metafields.ACPTiered.NormalTiersAllProducts.value | default: '[]' | json}}
+  {% else %} 
+  "tiers" : {{item.product.metafields.ACPTiered.NormalTiers.value | default: '[]' | json}}
+  {% endif %}
+ 
+ 
+ {% endif %}  }{% unless forloop.last %},{% endunless %} {% endfor %}
+ {% endcapture %} 
+this.cartTiersArray = [{{results}}] }
+var globalFields = new ACDiscountApp.Common.GlobalFields();
+</script>
+<script type="text/javascript" src="{{ 'ac-tiered-qty-product.js' | asset_url}}" defer></script>
+<script type="text/javascript" src="{{ 'ac-tiered-qty-cart.js' | asset_url}}" defer></script>
+{% endif %}
+{% include 'ac-add-ons' %}

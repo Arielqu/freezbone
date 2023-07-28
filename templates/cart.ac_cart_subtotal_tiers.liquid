@@ -1,0 +1,55 @@
+{% layout none %}
+{% capture results %}
+{% assign customerTag = '' %}{% if customer %}{% for tag in customer.tags %}{% if tag contains "acp_" %}{% assign customerTag = tag %}{% break %}{% endif %}{% endfor %}{% endif %}
+
+{% assign tempCustomerCartSubtotalTier = shop.metafields.ACPTiered.CustomerTiers | where: "tag", customerTag | default: nil  %} 
+{% if tempCustomerCartSubtotalTier == null %}
+{% assign tempCustomerCartSubtotalTier = shop.metafields.ACPTiered.CustomerTiers.value | where: "tag", customerTag | default: nil  %}
+{%endif%}
+   {% if customerTag != '' and tempCustomerCartSubtotalTier %} 
+      {% assign excluded_collection_ids = tempCustomerCartSubtotalTier[0]['excluded_collection_ids'] | default: nil %}
+      {% assign excluded_product_ids = tempCustomerCartSubtotalTier[0]['excluded_product_ids'] | default: nil %}
+   {% else %}
+	{% assign tempNormalCartSubtotalTier = shop.metafields.ACPTiered.NormalTiers[0] | default: nil %}
+      {% if tempNormalCartSubtotalTier == null %}
+      {% assign tempNormalCartSubtotalTier = shop.metafields.ACPTiered.NormalTiers.value[0] | default: nil %}
+      {% endif %}
+      {% assign excluded_collection_ids = tempNormalCartSubtotalTier['excluded_collection_ids'] | default: nil %}
+      {% assign excluded_product_ids = tempNormalCartSubtotalTier['excluded_product_ids'] | default: nil %}
+   {% endif %}
+{% assign excluded_static_product_ids = "123, 0" %}
+
+{% for item in cart.items %} 
+      { 
+        "item":{{item | json}},
+          {% assign is_exclude_product = false  %} 
+          {% for collectionId in excluded_collection_ids  %}
+       {% assign isProductInCollection = item.product.collections | where: "id", collectionId | default: nil  %} 
+           {% if isProductInCollection %}
+          {% assign is_exclude_product = true  %} 
+          {% break %}
+          {% endif %}
+          {% endfor %} 
+
+		{% assign staticProductInCollection = item.product.collections | where: "id", 0 | default: nil  %}
+          {% assign staticProductInCollection = staticProductInCollection[0] %}
+          {% if staticProductInCollection.id == 0 %}
+          {% assign is_exclude_product = true  %} 
+          {% endif %}
+
+           {% for productId in excluded_product_ids  %} 
+           {% if productId == item.product.id %}
+          {% assign is_exclude_product = true  %} 
+          {% break %}
+          {% endif %}
+          {% endfor %} 
+          {% if excluded_static_product_ids contains item.product.id %}
+          {% assign is_exclude_product = true  %}
+          {% endif %}
+          "is_exclude":{{is_exclude_product}} }
+      {% unless forloop.last %},
+        {% endunless %} 
+        {% endfor %} 
+        {% endcapture %} 
+        [{{results}}] 
+    
