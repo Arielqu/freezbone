@@ -153,7 +153,6 @@ ACDiscountApp.CartPage.Show_CalculateTier = function () {
     }
   
     var TieredPricingCart = function (cartObject, isUpdate) {
-      console.log("cartObject------>",cartObject)
         variantIdsToSend = []; minimumDiscountSubtotal = 0; priceDiff = 0; var updatedTotalPrice = 0;
         for (k = 0; k < cartObject.items.length; k++) {
             var item = cartObject.items[k], isInRange = true; itemTiers = GetTiersFromTiersArray(item.variant_id);
@@ -416,9 +415,11 @@ let qtydiscount   = 0
     // alert(123)
     jQuery('.hs-drawer-checkout form').replaceWith('<button id="anncodde" class="hs-checkout-purchase checkout-x-buy-now-btn hs-button-100-w btn hs-event-static">Checkout</button>')
    });
+
+  
      var SetCookie = function (cname, cvalue, exdays) { var d = new Date(); d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000)); var expires = "expires=" + d.toUTCString(); document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/"; }
     TieredPricingCart(globalFieldsCartPage_AC.cartObj, true); CheckoutClickCart(); CheckoutClickAjax();
-  
+
 
 }
 

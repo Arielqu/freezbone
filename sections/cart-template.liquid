@@ -135,7 +135,7 @@
       <div class="five columns medium-down--one-whole">
         <div class="section clearfix">
           <div class="subtotal">
-
+              {% comment %}
             {% if cart.cart_level_discount_applications != blank %}
               <p class="cart_discounts js-cart_discounts sale">
               {% for discount_application in cart.cart_level_discount_applications %}
@@ -148,14 +148,14 @@
               </p>
 
             {% endif %}
-
+           {% endcomment %}
             <p class="cart_subtotal js-cart_subtotal">
               <span class="right">
                 <span class="money">{{ cart.total_price | money }}</span>
               </span>
               <span>{{ 'cart.general.subtotal' | t }}</span>
             </p>
-
+          {% comment %}
             {% if section.settings.display_savings and total_saving > 0 or section.settings.display_savings and cart.total_discount > 0 %}
               <p class="cart_savings js-cart_savings sale">
                 <span class="right">
@@ -164,7 +164,7 @@
                 <span>{{ 'layout.general.savings' | t }}</span>
               </p>
             {% endif %}
-
+            {% endcomment %}
             {% if settings.show_multiple_currencies %}
               {% unless shop.enabled_currencies.size > 1 %}
                 <p>
@@ -198,8 +198,9 @@
               </div>
             {% endif %}
 
-            <p class="tos_warning checkout_button">
-              <button type="submit" class="action_button add_to_cart" id="checkout" name="checkout">{% if settings.show_lock_icon %}<span class="icon-lock"></span>{% endif %}{{ 'cart.general.checkout' | t }}</button>
+            <p class="tos_warning checkout_button acp">
+              <button type="submit" class="action_button add_to_cart acp" id="checkout" name="checkout">{% if settings.show_lock_icon %}<span class="icon-lock"></span>{% endif %}{{ 'cart.general.checkout' | t }}</button>
+              <li class="loader"></li>
             </p>
 
             {% if content_for_additional_checkout_buttons %}
@@ -312,6 +313,9 @@
           "default": 6
         }
       ]
+    },
+    {
+      "type": "@app"
     }
   ]
 }

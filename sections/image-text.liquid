@@ -2,8 +2,10 @@
 ** Image with text (half and half view) - homepage partial **
 - Draggable section
 - Uses blocks
-{% endcomment %}
-
+ <img class="rimage__image lazyload fade-in" data-src="{{ block.settings.image | img_url: "master" }}" alt="{{ shop.name | escape }}" />
+  {% endcomment %}
+  
+<div class=" {% if section.settings.class_name_section != blank %} {{ section.settings.class_name_section }} {% endif %}"  {% if section.settings.image_bg != blank %} style="background:url('{{ section.settings.image_bg | img_url: "master" }}') no=repeat; background-size:coverd" {% endif %}>
 {% if section.settings.frontpage_grid_style == false %}
   <div class="container">
     <div class="sixteen columns">
@@ -17,26 +19,64 @@
       {% if section.blocks.size > 0 %}
         {% for block in section.blocks %}
           <section class="featured-link--section featured-link--image section-{{ forloop.index }}" {{ block.shopify_attributes }}>
-            <div class="featured-link--half featured-link--image featured-link--margin image-crop--{{ block.settings.image_crop }}">
+            <div class="featured-link--half mobile_img_landingpage featured-link--image featured-link--margin image-crop--{{ block.settings.image_crop }}">
               <div class="featured-link--wrap">
                 <a {% if block.settings.link != blank %}href="{{ block.settings.link }}"{% endif %} title="{{ block.settings.title }}">
-                  {% if block.settings.image %}
+
+
+                 {% if block.settings.image %}
+                  <span class="disktop_img__">
                     {% include 'image-element', image: block.settings.image, alt: block.settings.image.alt, stretch_width: true %}
-                  {% else %}
+                   </span>
+                   {% if block.settings.mobile_image %}
+                     <span class="mobile_img__">
+                      {% include 'image-element', image: block.settings.mobile_image, alt: block.settings.mobile_image.alt, stretch_width: true %}
+                     </span>
+                    
+                  <style>
+                    .mobile_img__{display:none !important;}
+                    .disktop_img__{display:block !important;}
+                    @media (max-width: 767px){
+                    .disktop_img__{display:none !important;}
+                     .mobile_img__{display:block !important;}
+                    }
+                    </style>
+                     {% endif %} 
+                   {% else %}
                     {% capture i %}{% cycle "1", "2", "3", "4", "5", "6" %}{% endcapture %}
                     {{ 'collection-' | append: i | placeholder_svg_tag: 'placeholder-svg placeholder-svg--promotions' }}
                   {% endif %}
+
+
+                  
                 </a>
               </div>
             </div>
-            <div class="featured-link--half block--{{ block.id }}">
+            <div class="featured-link--half block--{{ block.id }} text_bg_left">
               <div class="info text-align--{{section.settings.frontpage_text_align}}">
+
+
+                {% if block.settings.description_top != blank %}
+                  <div class="description_top_a">{{ block.settings.description_top }}</div>
+                {% endif %}
+                
                 <a {% if block.settings.link != blank %}href="{{ block.settings.link }}"{% endif %} class="collection_title">
                   {{ block.settings.title }}
                 </a>
+                {% if block.settings.description_bottm != blank %}
+                  <div class="description_bottom_b">{{ block.settings.description_bottm }}</div>
+                {% endif %}
                 {% if block.settings.text != blank %}
                   <div class="description">{{ block.settings.text }}</div>
                 {% endif %}
+
+           {% if block.settings.text_heading2 != blank %}
+                  <div class="description_heading">{{ block.settings.text_heading2 }}</div>
+                {% endif %}
+                {% if block.settings.text2 != blank %}
+                  <div class="description">{{ block.settings.text2 }}</div>
+                {% endif %}
+          
                 {% if block.settings.button_label != blank %}
                   <a {% if block.settings.link != blank %}href="{{ block.settings.link }}"{% endif %} class="button">
                     {{ block.settings.button_label }}
@@ -52,7 +92,7 @@
     </div>
   </div>
 {% endif %}
-
+</div>
 
 {% comment %} Is the color set to transparent? {% endcomment %}
 {% assign bg_alpha = block.settings.bg_color | color_extract: 'alpha' %}
@@ -142,6 +182,17 @@
   "max_blocks": 16,
   "settings": [
     {
+          "type": "image_picker",
+          "id": "image_bg",
+          "label": "Image bh"
+    },
+     {
+          "type": "text",
+          "id": "class_name_section",
+          "label": "class name"
+    },
+    
+    {
       "type": "checkbox",
       "id": "frontpage_grid_style",
       "label": "Wide display"
@@ -209,6 +260,13 @@
           "info": "1024 x 1024px recommended"
         },
         {
+          "type": "image_picker",
+          "id": "mobile_image",
+          "label": "Mobile Image",
+          "info": "1024 x 1024px recommended"
+        },
+        
+        {
           "type": "select",
           "id": "image_crop",
           "label": "Image cropping",
@@ -235,16 +293,40 @@
         },
         {
           "type": "text",
+          "id": "description_top",
+          "label": "Sub Heading"
+        },
+        {
+          "type": "text",
           "id": "title",
           "label": "Heading",
           "default": "Your headline"
         },
+        
+         {
+          "type": "text",
+          "id": "description_bottm",
+          "label": "text"
+        },
+
+        
         {
           "type": "richtext",
           "id": "text",
           "label": "Text",
           "default": "<p>Promotion description appears here.</p>"
         },
+        {
+          "type": "text",
+          "id": "text_heading2",
+          "label": "Text heading2"
+        },
+        {
+          "type": "richtext",
+          "id": "text2",
+          "label": "Text"
+        },
+        
         {
           "type": "text",
           "id": "button_label",

@@ -631,7 +631,7 @@
             <input type="number" min="1" size="2" id="qty" class="js-qty__num" value="1" pattern="[0-9]*" {% if settings.limit_quantity and variant.inventory_management != blank and variant.inventory_policy == "deny" %}max="{{ variant.inventory_quantity }}"{% endif %} readonly>
             <button type="button" class="js-qty__adjust js-qty__adjust--plus js-change-quantity quantity" data-func="plus"><span class="" aria-hidden="true">+</span></button>
           </div>
-          <button  type="submit" class="prod-add-to-cart">Add to Bag</button>
+          <button  type="submit" class="prod-add-to-cart" id="ac-add-cart">Add to Bag</button>
         </div>
       
       </div>
@@ -969,6 +969,9 @@
     }
   ],
   "blocks": [
+     {
+      "type": "@app"
+    },
     {
       "type": "filter_by_collection",
       "name": "Collection list",

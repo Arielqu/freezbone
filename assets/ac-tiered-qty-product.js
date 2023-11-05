@@ -309,27 +309,7 @@ ACDiscountApp.PDPage.DisplayTiers = function () {
 //       alert(2345)
 //     });
 //   });
-$(document).ready(function() {
-    $('input[name="buyOption"]').click(function() {
-      // Remove the class "ac_tire_orange_clr" from all spans with the class "ac_tire_padding_left"
-      $('.ac_tire_padding_left').removeClass('ac_tire_orange_clr');
-      
-      // Remove the class "ac_tire_orange_clr" from all spans with the class "ac_tire_padding_left1"
-      $('.ac_tire_padding_left1').removeClass('ac_tire_orange_clr');
-      
-      // Add the class "ac_tire_orange_clr" to the clicked radio button's span with the class "ac_tire_padding_left"
-      $(this).next('.ac_tire_padding_left').addClass('ac_tire_orange_clr');
-      
-      // Add the class "ac_tire_orange_clr" to the clicked radio button's span with the class "ac_tire_padding_left1"
-      $(this).closest('.ac__tr').find('.ac_tire_padding_left1').addClass('ac_tire_orange_clr');
-      
-      // Add the class "ac_tire_orange_clr" to the clicked radio button's div with class "ac__td ac__td3"
-      $(this).closest('.ac__tr').find('.ac__td.ac__td3').addClass('ac_tire_orange_clr');
-      
-      // Remove the class "ac_tire_orange_clr" from other radio buttons' div with class "ac__td ac__td3"
-      $('input[name="buyOption"]').not(this).closest('.ac__tr').find('.ac__td.ac__td3').removeClass('ac_tire_orange_clr');
-    });
-});
+
     
   } 
    setTimeout(function(){
@@ -368,5 +348,15 @@ $(document).ready(function() {
 // }
 // // }, 500);
 // })
+  localStorage.setItem("count", true);
+   let count = localStorage.getItem("count");
+      if (count == 'true' ) {
+        setTimeout(function() {
+        location.reload();
+        localStorage.removeItem("count");
+        count = false
+      }, 1500);
+    }else{}
+
 var globalFieldsProductPage_AC = new ACDiscountApp.PDPage.Global(), displayTiers = new ACDiscountApp.PDPage.DisplayTiers();
 displayTiers.DisplayTiersFn(); displayTiers.OnVariantChange();

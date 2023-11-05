@@ -1,4 +1,20 @@
 ACDiscountApp.CartPage.Show_CalculateTier = function () {
+   var checkbuttonflag = false;
+
+       let cartDrawerDiscount
+       setInterval(function(){
+         // if($(".hs-price-total").length >=2){
+         //   $(".hs-cart-content-price div:eq(1)").remove()
+         // }
+         cartDrawerDiscount = $(".hs-code-text").text();
+        let originalDiscount = $('.hs-total-price-global').val()
+        let updatedDiscount = $('.hs-discount-price-global').val()
+        if(cartDrawerDiscount != ""){
+          jQuery('.hs-sub-total-cart .hs-mount-sub-total').html(`<span><s><span class="money" style="text-decoration: line-through;" >${globalFields.formatMoney(Number(originalDiscount), globalFields.amount)}</span></s>   <span class="money">${globalFields.formatMoney(Number(updatedDiscount), globalFields.amount)}</span></span>`);
+        }
+      },800) 
+
+  
     var UpdateCartItem = function (item, updatedItemPrice, updatedLinePrice, isUpdate, index) {
         if (isUpdate) {
             var originalItemPrice = globalFields.ConvertToFixedDecimalNumber(item.original_price / 100), originalLinePrice = globalFields.ConvertToFixedDecimalNumber(item.original_line_price / 100);
@@ -8,58 +24,66 @@ ACDiscountApp.CartPage.Show_CalculateTier = function () {
 /* Uncomment for unit price strike off */
                   jQuery('.section.clearfix.cart__wrapper .modal_price').eq(index).html('<div class="hs-price-total hs-desktop"><span class="money" data-currency-' + globalFields.currency.toLowerCase() + '="' + globalFields.currencySymbol + updatedItemPrice + '" data-currency="' + globalFields.currency + '">' + globalFields.formatMoney(updatedItemPrice, globalFields.amount) + '</span></div>');
 
-                jQuery('.section.clearfix.cart__wrapper .price_total').eq(index).html('<div><span class="money" data-currency-' + globalFields.currency.toLowerCase() + '="' + globalFields.currencySymbol + updatedLinePrice + '" data-currency="' + globalFields.currency + '">' + globalFields.formatMoney(updatedLinePrice, globalFields.amount) + '</span></div>');
-                 // setTimeout(function () { 
-              
-                  jQuery('.hs-sticky-cart .hs-cart-content-price').eq(index).html('<div class="hs-price-total hs-desktop"><span class="money" data-currency-' + globalFields.currency.toLowerCase() + '="' + globalFields.currencySymbol + updatedItemPrice + '" data-currency="' + globalFields.currency + '">' + globalFields.formatMoney(updatedItemPrice, globalFields.amount) + '</span></div>');
-                    // }, 1000);
-         //         setTimeout(function () { 
-              
-         // jQuery('.hs-rewards-content').remove()
-         //         }, 1500);
-            
-            
+                  jQuery('.section.clearfix.cart__wrapper .price_total').eq(index).html('<div><span class="money" data-currency-' + globalFields.currency.toLowerCase() + '="' + globalFields.currencySymbol + updatedLinePrice + '" data-currency="' + globalFields.currency + '">' + globalFields.formatMoney(updatedLinePrice, globalFields.amount) + '</span></div>');
+                  if(cartDrawerDiscount == ""){
+                    jQuery('.hs-sticky-cart .hs-cart-content-price').eq(index).html('<div class="hs-price-total hs-desktop"><span class="money acp" data-currency-' + globalFields.currency.toLowerCase() + '="' + globalFields.currencySymbol + updatedItemPrice + '" data-currency="' + globalFields.currency + '">' + globalFields.formatMoney(updatedItemPrice, globalFields.amount) + '</span></div>');
+                  }
+                  //setTimeout(function () { 
+                // jQuery('.hs-rewards-content').remove()
+                // }, 1500);
             }
             else {
                 originalItemPrice = globalFields.ConvertToFixedDecimalString(originalItemPrice), originalLinePrice = globalFields.ConvertToFixedDecimalString(originalLinePrice);
                
-                            jQuery('.section.clearfix.cart__wrapper .modal_price').eq(index).html('<div class="hs-price-total hs-desktop"><s><span class="money acp_drawer" data-currency-' + globalFields.currency.toLowerCase() + '="' + globalFields.currencySymbol + originalItemPrice + '" data-currency="' + globalFields.currency + '">' + globalFields.formatMoney(originalItemPrice, globalFields.amount) + '</span></s></div> <div class="hs-price-total hs-desktop"><span class="money" data-currency-' + globalFields.currency.toLowerCase() + '="' + globalFields.currencySymbol + updatedItemPrice + '" data-currency="' + globalFields.currency + '">' + globalFields.formatMoney(updatedItemPrice, globalFields.amount) + '</span></div>');
-
-                jQuery('.section.clearfix.cart__wrapper .price_total').eq(index).html('<div class="cart-item__original-price"><s><span class="money" data-currency-' + globalFields.currency.toLowerCase() + '="' + globalFields.currencySymbol + originalLinePrice + '" data-currency="' + globalFields.currency + '">' + globalFields.formatMoney(originalLinePrice, globalFields.amount) + '</span></s></div> <div style="margin-left:5px"><span class="money" data-currency-' + globalFields.currency.toLowerCase() + '="' + globalFields.currencySymbol + updatedLinePrice + '" data-currency="' + globalFields.currency + '">' + globalFields.formatMoney(updatedLinePrice, globalFields.amount) + '</span></div>');
-               // setTimeout(function () { 
+              jQuery('.section.clearfix.cart__wrapper .modal_price').eq(index).html('<div class="hs-price-total hs-desktop"><s><span class="money acp_drawer" data-currency-' + globalFields.currency.toLowerCase() + '="' + globalFields.currencySymbol + originalItemPrice + '" data-currency="' + globalFields.currency + '">' + globalFields.formatMoney(originalItemPrice, globalFields.amount) + '</span></s></div> <div class="hs-price-total hs-desktop"><span class="money" data-currency-' + globalFields.currency.toLowerCase() + '="' + globalFields.currencySymbol + updatedItemPrice + '" data-currency="' + globalFields.currency + '">' + globalFields.formatMoney(updatedItemPrice, globalFields.amount) + '</span></div>');
+              jQuery('.section.clearfix.cart__wrapper .price_total').eq(index).html('<div class="cart-item__original-price"><s><span class="money" data-currency-' + globalFields.currency.toLowerCase() + '="' + globalFields.currencySymbol + originalLinePrice + '" data-currency="' + globalFields.currency + '">' + globalFields.formatMoney(originalLinePrice, globalFields.amount) + '</span></s></div> <div style="margin-left:5px"><span class="money" data-currency-' + globalFields.currency.toLowerCase() + '="' + globalFields.currencySymbol + updatedLinePrice + '" data-currency="' + globalFields.currency + '">' + globalFields.formatMoney(updatedLinePrice, globalFields.amount) + '</span></div>');
+              
+              // setTimeout(function () { 
+              if(cartDrawerDiscount == ""){
               jQuery('.hs-sticky-cart .hs-cart-content-price').eq(index).html('<div class="hs-price-total hs-desktop"><s><span class="money acp_drawer acp_lineThrough" data-currency-' + globalFields.currency.toLowerCase() + '="' + globalFields.currencySymbol + originalItemPrice + '" data-currency="' + globalFields.currency + '">' + globalFields.formatMoney(originalItemPrice, globalFields.amount) + '</span></s></div> <div class="hs-price-total hs-desktop"><span class="money" data-currency-' + globalFields.currency.toLowerCase() + '="' + globalFields.currencySymbol + updatedItemPrice + '" data-currency="' + globalFields.currency + '">' + globalFields.formatMoney(updatedItemPrice, globalFields.amount) + '</span></div>');
-              // }, 1000);
-         //      setTimeout(function () { 
+              }
+                // }, 1000);
               
-         // jQuery('.hs-rewards-content').remove()
-         //         }, 1500);
-              
-            
-            
+              //setTimeout(function () { 
+              // jQuery('.hs-rewards-content').remove()
+              //}, 1500);
             }
         }
     }
 
-   
-    var UpdateCartSubtotal = function (isUpdate, updatedTotalPrice, originalTotalPrice) {
+
+ 
+
+      var UpdateCartSubtotal = function (isUpdate, updatedTotalPrice, originalTotalPrice) {
+    
         if (isUpdate) {
             updatedTotalPrice = globalFields.ConvertToFixedDecimalString(updatedTotalPrice), originalTotalPrice = globalFields.ConvertToFixedDecimalString(originalTotalPrice);
             if (originalTotalPrice != updatedTotalPrice) {
                 jQuery('.subtotal .cart_subtotal.js-cart_subtotal .right').html('<s><span class="money" data-currency-' + globalFields.currency.toLowerCase() + '="' + globalFields.currencySymbol + originalTotalPrice + '" data-currency="' + globalFields.currency + '">' + globalFields.formatMoney(originalTotalPrice, globalFields.amount) + '</span></s> <span class="money" data-currency-' + globalFields.currency.toLowerCase() + '="' + globalFields.currencySymbol + updatedTotalPrice + '" data-currency="' + globalFields.currency + '">' + globalFields.formatMoney(updatedTotalPrice, globalFields.amount) + '</span>');
                 jQuery('.hs-sub-total-cart .hs-mount-sub-total').html('<span class="money acp_drawer acp_lineThrough" data-currency-' + globalFields.currency.toLowerCase() + '="' + globalFields.currencySymbol + originalTotalPrice + '" data-currency="' + globalFields.currency + '">' + globalFields.formatMoney(originalTotalPrice, globalFields.amount) + '</span>&nbsp;<span class="money" data-currency-' + globalFields.currency.toLowerCase() + '="' + globalFields.currencySymbol + updatedTotalPrice + '" data-currency="' + globalFields.currency + '">' + globalFields.formatMoney(updatedTotalPrice, globalFields.amount) + '</span>');
-        
-            
-            
             }
             else {
               jQuery('.subtotal .cart_subtotal.js-cart_subtotal .right').html('<span class="money" data-currency-' + globalFields.currency.toLowerCase() + '="' + globalFields.currencySymbol + updatedTotalPrice + '" data-currency="' + globalFields.currency + '">' + globalFields.formatMoney(updatedTotalPrice, globalFields.amount) + '</span>');
-       
-                 
-               jQuery('.hs-sub-total-cart .hs-mount-sub-total').html('<span class="money" data-currency-' + globalFields.currency.toLowerCase() + '="' + globalFields.currencySymbol + updatedTotalPrice + '" data-currency="' + globalFields.currency + '">' + globalFields.formatMoney(updatedTotalPrice, globalFields.amount) + '</span>');
-             
-            
-            
+            //  jQuery('.hs-sub-total-cart .hs-mount-sub-total').html('<span class="money" data-currency-' + globalFields.currency.toLowerCase() + '="' + globalFields.currencySymbol + updatedTotalPrice + '" data-currency="' + globalFields.currency + '">' + globalFields.formatMoney(updatedTotalPrice, globalFields.amount) + '</span>');
+              setTimeout(function(){
+                let originalDiscount = $('.hs-total-price-global').val()
+                let updatedDiscount = $('.hs-discount-price-global').val()
+                if(cartDrawerDiscount != ""){
+                  jQuery('.hs-sub-total-cart .hs-mount-sub-total').html(`<span><s><span class="money" style="text-decoration: line-through;" >${globalFields.formatMoney(Number(originalDiscount), globalFields.amount)}</span></s>   <span class="money">${globalFields.formatMoney(Number(updatedDiscount), globalFields.amount)}</span></span>`);
+                }else{
+                  jQuery('.hs-sub-total-cart .hs-mount-sub-total').html('<span class="money" data-currency-' + globalFields.currency.toLowerCase() + '="' + globalFields.currencySymbol + updatedTotalPrice + '" data-currency="' + globalFields.currency + '">' + globalFields.formatMoney(updatedTotalPrice, globalFields.amount) + '</span>');
+                }
+              },2000)
             }
+
+          // setTimeout(function(){
+          // let cartDrawerDiscount = $(".hs-code-text").text();
+          // let originalDiscount = $('.hs-total-price-global').val()
+          // let updatedDiscount = $('.hs-discount-price-global').val()
+          //   if(cartDrawerDiscount != ""){
+          //     jQuery('.hs-sub-total-cart .hs-mount-sub-total').html(`<span><s><span class="money" style="text-decoration: line-through;" >${globalFields.formatMoney(Number(originalDiscount), globalFields.amount)}</span></s>   <span class="money">${globalFields.formatMoney(Number(updatedDiscount), globalFields.amount)}</span></span>`);
+          //   }
+          // },1500)
         }
     }
   
@@ -101,7 +125,10 @@ ACDiscountApp.CartPage.Show_CalculateTier = function () {
     }
 
     var GetCode = function (isUpper) {
-        if (priceDiff > 0) {
+         if (cartDrawerDiscount != "") {
+            window.location.href = '/checkout?discount=' + cartDrawerDiscount
+          }
+         else if (priceDiff > 0 && !checkbuttonflag) {
             $.ajax({
                 type: "POST", async: false, url: "https://customerapp.anncode.com/tier/ACPGenerateCartCode",
               	data: { discountOff: priceDiff, subTotal: minimumDiscountSubtotal, discounType: "fixed_amount" },
@@ -128,11 +155,11 @@ ACDiscountApp.CartPage.Show_CalculateTier = function () {
                 },
                 error: function (e) { console.log(e.statusText); }
             });
-        }
-        else if (isUpper) {
-            window.location.href = '/checkout';
-        }
-    }
+          }else{ 
+           window.location.href = '/checkout';
+          }
+         }
+    
  jQuery(' hs-text-free-shipping').remove()
     var ReInvokeAjaxCartButton = function () {
         jQuery('.mb_cart.mb_item button.btn, .top-header .dropdown-cart button.btn').off("click"); CheckoutClickAjax();
@@ -141,103 +168,126 @@ ACDiscountApp.CartPage.Show_CalculateTier = function () {
     var variantIdsToSend = [], minimumDiscountSubtotal = 0, priceDiff = 0;
   
 
-    var TieredPricingCart = function (cartObject, isUpdate) {
-      
+
+  
+        var TieredPricingCart = function (cartObject, isUpdate) {
+        let noItemWithSellingPlan = !cartObject.items.some(item => item.hasOwnProperty('selling_plan_allocation'));
+        if (noItemWithSellingPlan) {
+        checkbuttonflag = false;
+        
         variantIdsToSend = []; minimumDiscountSubtotal = 0; priceDiff = 0; var updatedTotalPrice = 0; var actualTotalPrice = 0;
         var tierObj = globalFieldsCartPage_AC.cartSubTotalMetafield;
-      var  itemTiers =  globalFieldsCartPage_AC.cartSubTotalMetafield
+        var  itemTiers =  globalFieldsCartPage_AC.cartSubTotalMetafield
         if (tierObj != undefined && tierObj != "[]" && tierObj.status && globalFields.StartEndDateValid(tierObj.start_date, tierObj.end_date)) {
             var calculatedTier = CalculateTierCartSubTotal(tierObj, globalFieldsCartPage_AC.is_quantity_total, true);
           //encorage msg
-
-                 var rslt = cartObject.item_count;
-            
-
+              var rslt = cartObject.item_count;
               for (let km = 0; km < itemTiers.tier_min.length; km++) {
-                  if(itemTiers.tier_min[itemTiers.tier_min.length - 1] <= rslt){
+
+                // // input bar enable disabled
+                //    if(rslt <  itemTiers.tier_min[0]){
+                //   jQuery('#hs-id-discount').prop("disabled", false);
+                //   }else{
+                //   jQuery('#hs-id-discount').prop("disabled", true);
+                //   }
+                
+                if(itemTiers.tier_min[itemTiers.tier_min.length - 1] <= rslt){
                   let MessageRemove  = jQuery(`.anncode_Message`) != undefined ? true : false;
-                    if(MessageRemove){
+                  if(MessageRemove){
                     jQuery(`.anncode_Message`).remove();
                     jQuery('.section.clearfix .sixteen.columns h1').after(`<p class="anncode_Message" style=" padding-top: 12px; font-size:20px; text-align:center; ">Congrats You got <b> ${itemTiers.tier_values[itemTiers.tier_values.length - 1]}%</b> Off! </p>`)
-                        jQuery(' hs-text-free-shipping').remove()
-                   jQuery('.hs-close-popup-cart .hs-header-close-empty').after(`<p class="anncode_Message" style=" padding-top: 12px; font-size:20px; text-align:center; ">Congrats You got <b> ${itemTiers.tier_values[itemTiers.tier_values.length - 1]}%</b> Off! </p>`)
-
-                    }else if(!MessageRemove){
-                    jQuery('.section.clearfix .sixteen.columns h1').after(`<p class="anncode_Message" style=" padding-top: 12px; font-size:20px; text-align:center; ">Congrats You got <b>  ${itemTiers.tier_values[itemTiers.tier_values.length - 1]}%</b> Off! </p>`)
-                      jQuery
-                       jQuery('.section.clearfix .sixteen.columns h1').after(`<p class="anncode_Message" style=" padding-top: 12px; font-size:20px; text-align:center; ">Congrats You got <b>  ${itemTiers.tier_values[itemTiers.tier_values.length - 1]}%</b> Off! </p>`)
-
-                    }
-                  break;
+                    jQuery(' hs-text-free-shipping').remove()
+                    jQuery('.hs-close-popup-cart .hs-header-close-empty').after(`<p class="anncode_Message" style=" padding-top: 12px; font-size:20px; text-align:center; ">Congrats You got <b> ${itemTiers.tier_values[itemTiers.tier_values.length - 1]}%</b> Off! </p>`)
+                  }else if(!MessageRemove){
+                  jQuery('.section.clearfix .sixteen.columns h1').after(`<p class="anncode_Message" style=" padding-top: 12px; font-size:20px; text-align:center; ">Congrats You got <b>  ${itemTiers.tier_values[itemTiers.tier_values.length - 1]}%</b> Off! </p>`)
+                  jQuery
+                  jQuery('.section.clearfix .sixteen.columns h1').after(`<p class="anncode_Message" style=" padding-top: 12px; font-size:20px; text-align:center; ">Congrats You got <b>  ${itemTiers.tier_values[itemTiers.tier_values.length - 1]}%</b> Off! </p>`)
                   }
+                break;
+                }
                 else if(itemTiers.tier_min[km] > rslt){
-                  let MessageRemove  = jQuery(`.anncode_Message`) != undefined ? true : false;
+                let MessageRemove  = jQuery(`.anncode_Message`) != undefined ? true : false;
                 if(MessageRemove){
-                // let strFirstThree = CollectionName.substring(0,3);
-                // if(strFirstThree.includes('THE') || strFirstThree.includes('The') || strFirstThree.includes('the')){
-                jQuery(`.removecheck`).remove()
-                jQuery(`.anncode_Message`).remove();
-                if(itemTiers.tier_min[km] - rslt  == 1 ){
-                  $('.hs-rewards-content').remove()
-
-                jQuery('.hs-close-popup-cart .hs-header-close-empty').after(`<p class="anncode_Message" style="font-size:12px; text-align:center;color:black;text-transform: uppercase;">ADD  ANY <b>${itemTiers.tier_min[km] - rslt }</b>       ITEM TO GET  <b>${itemTiers.tier_values[km]}% </b> off! </p>`);
-                if(globalFields.PageOption == "cart"){
-                  $('.hs-rewards-content').remove()
-
-                jQuery('.section.clearfix .sixteen.columns h1').after(`<p class="anncode_Message" style=" padding-top: 12px; font-size:20px;color:black;text-align:center;text-transform: uppercase;">ADD ANY <b>${itemTiers.tier_min[km] - rslt }</b>      ITEM TO GET <b>${itemTiers.tier_values[km]}% </b> off! </p>`)
-                }
-                }else{
-                jQuery('.hs-close-popup-cart .hs-header-close-empty').after(`<p class="anncode_Message" style="font-size:12px; text-align:center;color:black;text-transform: uppercase;">ADD ANY <b>${itemTiers.tier_min[km] - rslt }</b>     ITEMS TO GET <b>${itemTiers.tier_values[km]}% </b> off! </p>`);
-                if(globalFields.PageOption == "cart"){
-                  $('.hs-rewards-content').remove()
-
-                jQuery('.section.clearfix .sixteen.columns h1').after(`<p class="anncode_Message" style=" padding-top: 12px; font-size:20px;color:black;text-align:center;text-transform: uppercase;">ADD  ANY <b>${itemTiers.tier_min[km] - rslt }</b>       ITEMS TO GET <b>${itemTiers.tier_values[km]}% </b> off! </p>`)
-                }
-                }
-                  
+                  // let strFirstThree = CollectionName.substring(0,3);
+                  // if(strFirstThree.includes('THE') || strFirstThree.includes('The') || strFirstThree.includes('the')){
+                      jQuery(`.removecheck`).remove()
+                      jQuery(`.anncode_Message`).remove();
+                      if(itemTiers.tier_min[km] - rslt  == 1 ){
+                      $('.hs-rewards-content').remove()
+                    
+                      jQuery('.hs-close-popup-cart .hs-header-close-empty').after(`<p class="anncode_Message" style="font-size:12px; text-align:center;color:black;text-transform: uppercase;">ADD  ANY <b>${itemTiers.tier_min[km] - rslt }</b>       ITEM TO GET  <b>${itemTiers.tier_values[km]}% </b> off! </p>`);
+                  if(globalFields.PageOption == "cart"){
+                      $('.hs-rewards-content').remove()
+                      jQuery('.section.clearfix .sixteen.columns h1').after(`<p class="anncode_Message" style=" padding-top: 12px; font-size:20px;color:black;text-align:center;text-transform: uppercase;">ADD ANY <b>${itemTiers.tier_min[km] - rslt }</b>      ITEM TO GET <b>${itemTiers.tier_values[km]}% </b> off! </p>`)
+                  }
+                  }else{
+                  jQuery('.hs-close-popup-cart .hs-header-close-empty').after(`<p class="anncode_Message" style="font-size:12px; text-align:center;color:black;text-transform: uppercase;">ADD ANY <b>${itemTiers.tier_min[km] - rslt }</b>     ITEMS TO GET <b>${itemTiers.tier_values[km]}% </b> off! </p>`);
+                    if(globalFields.PageOption == "cart"){
+                      $('.hs-rewards-content').remove()
+                      jQuery('.section.clearfix .sixteen.columns h1').after(`<p class="anncode_Message" style=" padding-top: 12px; font-size:20px;color:black;text-align:center;text-transform: uppercase;">ADD  ANY <b>${itemTiers.tier_min[km] - rslt }</b>       ITEMS TO GET <b>${itemTiers.tier_values[km]}% </b> off! </p>`)
+                    }
+                  }
                 }
                 break;
                 }
-                }
+              }
 
           if(globalFieldsCartPage_AC.cartObj.item_count == 0 ){
            $('.anncode_Message').remove();
           } 
 //end subtotal 
-          
-
-
 //end encorage msg 
           
-          
-          if (!calculatedTier[3]) {
-                for (k = 0; k < globalFieldsCartPage_AC.cartTiersArray.length; k++) {
+              if (!calculatedTier[3]) {
+                  for (k = 0; k < globalFieldsCartPage_AC.cartTiersArray.length; k++) {
                     var item = globalFieldsCartPage_AC.cartTiersArray[k];
                     actualTotalPrice += globalFields.ConvertToFixedDecimalNumber(item.item.original_line_price / 100);
                     if (!item.is_exclude) {
-                        variantIdsToSend.push(item.item.variant_id);
+                      variantIdsToSend.push(item.item.variant_id);
                     }
                     if (tierObj.discount_type == 'percentage') {
-                        var rslt = CalculateTier(item.item, calculatedTier[2], tierObj, isUpdate, k);
+                      var rslt = CalculateTier(item.item, calculatedTier[2], tierObj, isUpdate, k);
                     }
-                }
-              }else{
-             for (k = 0; k < globalFieldsCartPage_AC.cartTiersArray.length; k++) {
+                  }
+                }else{
+                  for (k = 0; k < globalFieldsCartPage_AC.cartTiersArray.length; k++) {
                     var item = globalFieldsCartPage_AC.cartTiersArray[k];
-                   actualTotalPrice += globalFields.ConvertToFixedDecimalNumber(item.item.original_line_price / 100);
-                }
-             
+                     actualTotalPrice += globalFields.ConvertToFixedDecimalNumber(item.item.original_line_price / 100);
+                  }
               }
           
               // if(actualTotalPrice < calculatedTier[5]){ calculatedTier[5] = actualTotalPrice }
                 minimumDiscountSubtotal = actualTotalPrice;
                 updatedTotalPrice = actualTotalPrice - calculatedTier[5];
+                setTimeout(()=>{
                 UpdateCartSubtotal(isUpdate, globalFields.ConvertToFixedDecimalNumber(updatedTotalPrice), globalFields.ConvertToFixedDecimalNumber(actualTotalPrice));
-                priceDiff = calculatedTier[5];
+                },800)
+              priceDiff = calculatedTier[5];
                 UpdateSavingMessage(isUpdate);
             
 
         }
+       if(!checkbuttonflag){
+          jQuery('.hs-drawer-checkout form').replaceWith('<button id="anncodde" class="hs-checkout-purchase checkout-x-buy-now-btn hs-button-100-w btn hs-event-static">Checkout</button>')
+          }
+    } else {
+    checkbuttonflag = true;
+        setTimeout(()=>{
+          if(cartObject != undefined){
+            jQuery('.hs-sub-total-cart .hs-mount-sub-total').html('<span class="money" data-currency-' + globalFields.currency.toLowerCase() + '="' + globalFields.currencySymbol + cartObject.total_price + '" data-currency="' + globalFields.currency + '">' + globalFields.formatMoney(cartObject.original_total_price/100*100, globalFields.amount) + '</span>');
+          }
+        },800)
+      // jQuery('.anncode_Message').hide()
+       var  displaymessage = document.querySelector('.anncode_Message');
+       if(displaymessage != null){
+         displaymessage.style.display = 'none';
+       }
+   
+       if(!checkbuttonflag){
+          jQuery('.hs-drawer-checkout form').replaceWith('<button id="anncodde" class="hs-checkout-purchase checkout-x-buy-now-btn hs-button-100-w btn hs-event-static">Checkout</button>')
+          }
+     } 
+          
     }
 
     var CalculateTierCartSubTotal = function (tiers, is_quantity_total, isNotInRange) {
@@ -262,7 +312,13 @@ ACDiscountApp.CartPage.Show_CalculateTier = function () {
                 condition2 = maxTier == "max" || eligibleSubtotal <= maxTier;
             }
 
+          
+            
             if (condition1 && condition2) {
+              //  setTimeout(()=>{
+              // // jQuery('.hs-tag .hs-close-discount-slide-cart').click()
+              // // jQuery('#hs-id-discount').val("")
+              // },1000)
                 isNotInRange = false;
                 if (tiers.discount_type == 'percentage') {
                     discount_total = parseFloat(globalFields.ConvertToFixedDecimalNumber((parseFloat(tierPrice) / 100) * globalFields.ConvertToFixedDecimalNumber(eligibleSubtotal)));
@@ -296,10 +352,12 @@ ACDiscountApp.CartPage.Show_CalculateTier = function () {
             type: "HEAD", url: "/discount/" + discount_code,
             success: function (_result) { },
             error: function (e) { console.log(e.statusText); }
-        })
-    }
+        });
+    };
+  
 
     var FetchCartTiers = function () {
+      
         jQuery.ajax({
             async: false,
             url: "/cart/?view=ac_cart_subtotal_tiers",
@@ -307,6 +365,9 @@ ACDiscountApp.CartPage.Show_CalculateTier = function () {
                 globalFieldsCartPage_AC.cartTiersArray = JSON.parse(result);
                 TieredPricingCart(globalFieldsCartPage_AC.cartObj, true);
                 CheckoutClickAjax();
+              console.log(globalFieldsCartPage_AC.cartSubTotalMetafield.tier_min[0])
+          
+
             },
             error: function (e) { console.log(e.statusText); }
         });
@@ -331,15 +392,12 @@ ACDiscountApp.CartPage.Show_CalculateTier = function () {
     try {
         var nativeFetch = window.fetch;
         window.fetch = function (...args) {
-          
-            //     console.log('detected fetch call');
-            //     console.log(args[0]);
             if(args[0].includes("/cart/change") || args[0].includes("/cart/add")){
-                setTimeout(function () {
-                    fetch('/cart.js')
-                        .then(r => r.json().then(data => ({ status: r.status, body: data })))
-                        .then(obj => ProcessCartResponse("/cart.js", JSON.stringify(obj.body)));
-                }, 500);
+              setTimeout(function () {
+                fetch('/cart.js')
+                .then(r => r.json().then(data => ({ status: r.status, body: data })))
+                .then(obj => ProcessCartResponse("/cart.js", JSON.stringify(obj.body)));
+              }, 500);
             }
             return nativeFetch.apply(window, args);
         }
@@ -354,55 +412,158 @@ ACDiscountApp.CartPage.Show_CalculateTier = function () {
                 globalFieldsCartPage_AC.cartObj = JSON.parse(responseText);
                 setTimeout(function () {
                     FetchCartTiers();
+                  jQuery('canvas').remove();
                 }, 500);
             }
         }
     }
+    var AddToCartProduct = function () {
+       setTimeout(function(){
+        jQuery('#myAdd').click(function () {
+          setTimeout(function(){
+            jQuery('button[title="Apply"]').click(function () {
+              setTimeout(function(){
+                TieredPricingCart(globalFieldsCartPage_AC.cartObj, true);
+                 }, 800);
+                        //remove discount 
+          setTimeout(function(){
+              let cartDrawerDiscount = $(".hs-code-text").text();
+                if(cartDrawerDiscount != ""){
+                  jQuery('.hs-close-discount-slide-cart').click(function () {
+                    setTimeout(function(){
+                      TieredPricingCart(globalFieldsCartPage_AC.cartObj, true);
+                    }, 800);
+                  })
+                }
+              }, 1500);
+            })
+          }, 1500);
+        })
+      }, 1500);;
+    }
+    var discountRemoveOnCart = function () {
+        setTimeout(function(){
+        jQuery('#myAdd').click(function () {
+          setTimeout(function(){
+            jQuery('button[title="Apply"]').click(function () {
+              setTimeout(function(){
+                TieredPricingCart(globalFieldsCartPage_AC.cartObj, true);
+                 }, 800);
+                        //remove discount 
+          setTimeout(function(){
+              let cartDrawerDiscount = $(".hs-code-text").text();
+                if(cartDrawerDiscount != ""){
+                  jQuery('.hs-close-discount-slide-cart').click(function () {
+                    setTimeout(function(){
+                      TieredPricingCart(globalFieldsCartPage_AC.cartObj, true);
+                    }, 800);
+                  })
+                }
+              }, 1500);
+            })
+          }, 1500);
+        })
+      }, 1500);
+    }
 
+     window.addEventListener('load', function () {
+       setTimeout(function(){
+        jQuery('#myAdd').click(function () {
+          setTimeout(function(){
+            jQuery('button[title="Apply"]').click(function () {
+              setTimeout(function(){
+                TieredPricingCart(globalFieldsCartPage_AC.cartObj, true);
+                 }, 800);
+                        //remove discount 
+          setTimeout(function(){
+              let cartDrawerDiscount = $(".hs-code-text").text();
+                if(cartDrawerDiscount != ""){
+                  jQuery('.hs-close-discount-slide-cart').click(function () {
+                    setTimeout(function(){
+                      TieredPricingCart(globalFieldsCartPage_AC.cartObj, true);
+                    }, 800);
+                  })
+                }
+              }, 1500);
+            })
+          }, 1500);
+        })
+      }, 1500);
+    })
 
 
 $('.hs-progess-content.hs-hidden-percentages').remove()
-   jQuery('.hs-drawer-checkout form').replaceWith('<button id="anncodde"  class="hs-checkout-purchase checkout-x-buy-now-btn hs-button-100-w btn hs-event-static">Checkout</button>')
-   setTimeout(function(){
-     $('.hs-progess-content.hs-hidden-percentages').remove()
-  jQuery('.hs-drawer-checkout form').replaceWith('<button id="anncodde" class="hs-checkout-purchase checkout-x-buy-now-btn hs-button-100-w btn hs-event-static">Checkout</button>')
-    }, 2000);
-
-  let start = null;
-    let requestInterval = function() {      
-      start = setInterval(function() {
-       fetch('/cart.js')
-        .then(r => r.json().then(data => ({ status: r.status, body: data })))
-        .then(obj => ProcessCartResponse("/cart.js", JSON.stringify(obj.body)));
+    if(!checkbuttonflag){
          jQuery('.hs-drawer-checkout form').replaceWith('<button id="anncodde" class="hs-checkout-purchase checkout-x-buy-now-btn hs-button-100-w btn hs-event-static">Checkout</button>')
+      }
+   // jQuery('.hs-drawer-checkout form').replaceWith('<button id="anncodde"  class="hs-checkout-purchase checkout-x-buy-now-btn hs-button-100-w btn hs-event-static">Checkout</button>')
+      setTimeout(function(){
+        $('.hs-progess-content.hs-hidden-percentages').remove()
+        if(!checkbuttonflag){
+          jQuery('.hs-drawer-checkout form').replaceWith('<button id="anncodde" class="hs-checkout-purchase checkout-x-buy-now-btn hs-button-100-w btn hs-event-static">Checkout</button>')
+        }
+        // jQuery('.hs-drawer-checkout form').replaceWith('<button id="anncodde" class="hs-checkout-purchase checkout-x-buy-now-btn hs-button-100-w btn hs-event-static">Checkout</button>')
       }, 2000);
-      
-    }
-    requestInterval();
-    setTimeout(function(){
+
+      let start = null;
+      let requestInterval = function() {      
+        start = setInterval(function() {
+          fetch('/cart.js')
+          .then(r => r.json().then(data => ({ status: r.status, body: data })))
+          .then(obj => ProcessCartResponse("/cart.js", JSON.stringify(obj.body)));
+          if(!checkbuttonflag){
+          jQuery('.hs-drawer-checkout form').replaceWith('<button id="anncodde" class="hs-checkout-purchase checkout-x-buy-now-btn hs-button-100-w btn hs-event-static">Checkout</button>')
+          }
+        // jQuery('.hs-drawer-checkout form').replaceWith('<button id="anncodde" class="hs-checkout-purchase checkout-x-buy-now-btn hs-button-100-w btn hs-event-static">Checkout</button>')
+        }, 1000);
+      }
+      requestInterval();
+      setTimeout(function(){
       clearInterval(start);
-    },10000);
+      },5000);
 
-jQuery('#saved-banner-div').remove();
-    $('.hs-rewards-content').remove()
+      jQuery('#saved-banner-div').remove();
+      $('.hs-rewards-content').remove()
 
-   jQuery('.hs-drawer-checkout form').replaceWith('<button id="anncodde"  class="hs-checkout-purchase checkout-x-buy-now-btn hs-button-100-w btn hs-event-static">Checkout</button>')
-   setTimeout(function(){
-     $('.hs-rewards-content').remove()
-       $(' hs-text-free-shipping').remove()
-  jQuery('.hs-drawer-checkout form').replaceWith('<button id="anncodde" class="hs-checkout-purchase checkout-x-buy-now-btn hs-button-100-w btn hs-event-static">Checkout</button>')
+   // jQuery('.hs-drawer-checkout form').replaceWith('<button id="anncodde"  class="hs-checkout-purchase checkout-x-buy-now-btn hs-button-100-w btn hs-event-static">Checkout</button>')
+    setTimeout(function(){
+      $('.hs-rewards-content').remove()
+      $(' hs-text-free-shipping').remove()
+      if(!checkbuttonflag){
+        jQuery('.hs-drawer-checkout form').replaceWith('<button id="anncodde" class="hs-checkout-purchase checkout-x-buy-now-btn hs-button-100-w btn hs-event-static">Checkout</button>')
+      }
     }, 2000);
 
 
+      jQuery('.search-cart-head-m-div .cart_container').click(function () {
+        if(!checkbuttonflag){
+          jQuery('.hs-drawer-checkout form').replaceWith('<button id="anncodde" class="hs-checkout-purchase checkout-x-buy-now-btn hs-button-100-w btn hs-event-static">Checkout</button>')
+        }
+       });
+      
 
+      $('#ac-add-cart').click(function(){
+        setTimeout(function() {
+          jQuery.getJSON('/cart.js', function(cart) {
+            let cartData = cart.items;
+            document.dispatchEvent(new CustomEvent('cart:build' , {bubbles: true})); 
+            document.dispatchEvent(new CustomEvent('cart:refresh', {
+                bubbles: true,
+                 detail: cartData
+            })); 
+          });
+        }, 400);
+      })
+  
 
-  jQuery('.search-cart-head-m-div .cart_container').click(function () {
-    // alert(123)
-    jQuery('.hs-drawer-checkout form').replaceWith('<button id="anncodde" class="hs-checkout-purchase checkout-x-buy-now-btn hs-button-100-w btn hs-event-static">Checkout</button>')
-   });
+  
     var SetCookie = function (cname, cvalue, exdays) { var d = new Date(); d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000)); var expires = "expires=" + d.toUTCString(); document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/"; }
-
-    TieredPricingCart(globalFieldsCartPage_AC.cartObj, true); CheckoutClickCart(); CheckoutClickAjax();
+     jQuery('canvas').remove()
+    TieredPricingCart(globalFieldsCartPage_AC.cartObj, true); CheckoutClickCart(); CheckoutClickAjax();  AddToCartProduct();discountRemoveOnCart();
+  
+    window.addEventListener('load', function () { AddToCartProduct(); discountRemoveOnCart(); })
+  
+   setTimeout(function() {   AddToCartProduct();  discountRemoveOnCart();   }, 3000); setTimeout(function() {   AddToCartProduct(); discountRemoveOnCart();    }, 5000); setTimeout(function() {   AddToCartProduct(); discountRemoveOnCart();   }, 8000);
 }
 
 var globalFieldsCartPage_AC = new ACDiscountApp.CartPage.Global(); var cartObject = new ACDiscountApp.CartPage.Show_CalculateTier();

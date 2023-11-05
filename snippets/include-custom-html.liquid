@@ -1,12 +1,17 @@
 {% if type == 'block' %}
   {% assign custom_html = block.settings.custom_html %}
+  {% assign wide_display = block.settings.wide_display %}
+  
 {% else %}
   {% assign custom_html = section.settings.custom_html %}
+  {% assign wide_display = section.settings.wide_display %}
 {% endif %}
 
 <div class="homepage_content clearfix">
-  <div class="container">
-    <div class="sixteen columns">
+  {% if wide_display == false %}
+<div class="container">
+  <div class="sixteen columns">
+{% endif %}
       <div class="section clearfix">
         {% if custom_html != blank %}
          {{ custom_html }}
@@ -16,6 +21,8 @@
           </p>
         {% endif %}
       </div>
-    </div>
+  {% if wide_display == false %}
   </div>
+</div>
+{% endif %}
 </div>

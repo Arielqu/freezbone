@@ -19,6 +19,13 @@
 .hs-rewards-content{
   display:none
 }
+.hs-discount-app-cart{
+   display:none!important;
+}
+  .hs-discount-app-cart.hs-desktop{
+      display:none!important;
+  }
+  
 </style>
 <script type="text/javascript" defer>
   
@@ -201,7 +208,10 @@ ACDiscountApp.CartPage.Global = function () {
   	var globalFields = new ACDiscountApp.Common.GlobalFields();
   
 </script>
-<script type="text/javascript" src="{{ 'ac-tiered-sub-cart.js' | asset_url}}" defer></script>
+
+
+<script type="text/javascript" src="{{ 'ac-tiered-sub-cart.js' | asset_url }}" defer></script>
 <script type="text/javascript" src="{{ 'ac-tiered-sub-product.js' | asset_url}}" defer></script>
+  
 {% endif %}
 {% include 'ac-add-ons' %}

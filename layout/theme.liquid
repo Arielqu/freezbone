@@ -137,6 +137,8 @@ window._klOnsite.push(['openForm', 'WQi52a']);
 {% comment %}
   {% render 'qikify-apps' %}
   {% endcomment %}
+{% render 'wsg-custom' %}
+
 </head>
 
   
@@ -163,6 +165,8 @@ window._klOnsite.push(['openForm', 'WQi52a']);
   {% elsif template contains "search" %}
     {% assign feature_image = true %}
   {% elsif template contains "cart" %}
+    {% assign feature_image = true %}
+    {% elsif template contains "black_friday" %}
     {% assign feature_image = true %}
   {% else %}
     {% assign feature_image = false %}
@@ -586,22 +590,11 @@ jQuery("#carousel_page_review").owlCarousel({
 .product_section .product_form {opacity: 1 !important;}
 
 
-  
- .newsletter .needsclick  {min-height: auto !important;}
- .newsletter .needsclick button{background: #f74e00 !important;
-    border-radius: 8px !important;
-    font-style: normal !important;
-    font-weight: 500 !important;
-    font-size: 18px !important;
-    line-height: 21px !important;
-    text-align: right !important;
-    display: block !important;
-    color: #fff !important;
-    width: fit-content !important;
-    padding: 2px 15px !important; border: 0 !important;}
-
-      
-  .ast-container{display:none !important;}
+.kl-private-reset-css-Xuajs1 {color: white !important;}
+.newsletter .needsclick  {min-height: auto !important;}
+.newsletter .needsclick button{background: #f74e00 !important; border-radius: 8px !important; font-style: normal !important; font-weight: 500 !important; font-size: 18px !important; line-height: 21px !important; text-align: right !important; display: block !important; color: #fff !important; width: fit-content !important; padding: 2px 15px !important; border: 0 !important;}
+.page-black_friday #ps__widget_container{display:none !important;}
+.ast-container{display:none !important;}
 .icon-search:before {font-weight: bolder;}
 body.blocked-scroll {overflow: visible !important; }
 body.blocked-scroll {pointer-events:visible;  z-index: -999999;  position: relative;}
@@ -614,13 +607,53 @@ body.blocked-scroll {pointer-events:visible;  z-index: -999999;  position: relat
 }
 
 </style>
-    
-<script type="text/javascript" src="{{ 'ac-productcheckbox.js' | asset_url}}" defer></script>
+    {% comment %}
     {% render 'linked-options' %}
+    {% endcomment %}
+  
+  <script>
+  $( document ).ready(function() {
+   jQuery(".announcement_slider").owlCarousel({
+  items: 1,
+  nav: false,
+  dots: true,
+  loop: true,
+  autoplay: true,
+  slideSpeed : 2000,
+   autoplaySpeed:2000,
+
+});
+$(".announcement-bar-close").on("click", function () {
+    $(".top_announcement_bar").css({ display: "none" });
+});  
+
+});
+</script>
+  <script>
+let t = $('.menu.center.clearfix .search-cart-head-m-div .header-cart-ul .cartDrawerIcon:eq(1)');
+
+  </script>
  </body>
 </html>
 {% endcapture %}
 {% assign content = content | replace_first: '<!DOCTYPE', '!DOCTYPE' | split: ' <' %}
 {% for html in content %}{% assign htmlblock = html | strip | prepend: ' <' %}{{htmlblock | replace: ' </', '</'}}{% endfor %}
- 
+<style>
+  .hs-rewards-canvas-2{display:none!important;}
+.hs-rewards-canvas-1{display:none!important;}
+/* .flickity-enabled.is-draggable .flickity-viewport{
+  height: 20rem!important;
+} */
+</style>
+  
+     <script type="text/javascript" src="{{ 'ac-cartcheckout.js' | asset_url}}" defer></script>
+  
+
 {% include 'ac-tiered-sub-global' %}
+
+<style>
+#wsg-product-accordion-7053109592116{diplay:none !important;}
+  
+</style>
+  
+

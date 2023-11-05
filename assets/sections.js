@@ -1620,7 +1620,7 @@ var header = {
 
         if (!$('.main_nav_wrapper').hasClass('sticky_nav')) {
           var sticky_nav = new Headhesive('.main_nav_wrapper', {
-            offset: 700,
+            offset: 200,
             throttle: 300,
             classes: {
               clone: 'sticky_nav',

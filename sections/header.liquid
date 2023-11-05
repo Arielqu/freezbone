@@ -46,6 +46,7 @@
 
 {% comment %}Mobile navigation{% endcomment %}
 <header id="header" class="mob-header mobile_nav-fixed--{{ section.settings.fixed_header }}">
+{% render 'top-bar' %}
   {% if section.settings.promo_text != blank %}
     <div class="promo_banner aaa">
       <div class="promo_banner__content">
@@ -407,7 +408,7 @@
     </div>
 {% endcomment %}
     <div class="main_nav_wrapper">
-    
+    {% render 'top-bar' %}
       {% if section.settings.promo_text != blank %}
       <div class="promo_banner ddd">
         <div class="promo_banner__content">
@@ -485,10 +486,10 @@
                          <img src="https://cdn.shopify.com/s/files/1/0597/2335/0068/files/Vector_2da5f416-b777-4f16-9132-7aa5179f81c8.png?v=1674888474">    
                     </a>
                   </li>
-                  <li>
+                  <li class="cartDrawerIcon">
                      {% if section.settings.show_cart %}
-                        <div class="cart_container">
-                          <a href="{{ routes.cart_url }}" class="{% if section.settings.cart_icon == "cart" %}icon-cart{% else %}icon-bag{% endif %} mini_cart dropdown_link" title="{{ 'layout.general.cart' | t | escape }}" data-no-instant> <span class="cart_count" data-cart-count>{{ cart.item_count }}</span></a>
+                        <div class="cart_container" >
+                          <a href="{{ routes.cart_url }}" class="{% if section.settings.cart_icon == "cart" %}icon-cart{% else %}icon-bag{% endif %} mini_cart dropdown_link"   title="{{ 'layout.general.cart' | t | escape }}" data-no-instant > <span class="cart_count" data-cart-count>{{ cart.item_count }}</span></a>
                         </div>
                       {% endif %}
                   </li>
@@ -811,6 +812,19 @@
       "max": 30,
       "default": 0,
       "unit": "px"
+    }
+  ],
+   "blocks": [
+     {
+      "type": "topbar",
+      "name": "Top Bar",
+      "settings": [
+        {
+          "type"  : "text",
+          "id"    : "info_title",
+          "label" : "Information Text"
+        }
+      ]
     }
   ]
 }
